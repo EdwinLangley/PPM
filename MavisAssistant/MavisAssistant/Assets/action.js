@@ -3,5 +3,6 @@
 
 document.body.querySelector('h1').innerHTML = 'Hello Testing';
 
-Mavis.run();
+Mavis.showNotification('complete');
 
+Mavis.talk("Hello World");

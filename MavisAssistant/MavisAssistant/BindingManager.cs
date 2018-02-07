@@ -1,40 +1,38 @@
 ﻿using System;
 using Android.Util;
+using Android.Views;
+
+using Android.Content;
+using Android.Widget;
+
+using Java.Interop;
 using Android.Webkit;
 
 namespace MavisAssistant
 {
-    public class BindingManager: Java.Lang.Object
+    public class BindingManager : Java.Lang.Object
     {
+        private Context context;
+        private VoiceManager vm;
 
-        WebView webView;
-
-        public BindingManager(WebView webView)
-        {
-            this.webView = webView;
+        public BindingManager(Context context){
+            this.context = context;
         }
 
-        void Run()
-        {
-            this.webView.EvaluateJavascript("document.body.querySelector('h1').innerHTML += ' z'; return 0", new JavascriptResult((string v) =>
-            {
-                Log.Debug("abc","");
-            }));
+        [Export]
+        [JavascriptInterface]
+        public void showNotification(string message){
+            Toast.MakeText(this.context,message,ToastLength.Long).Show();
         }
+
+        [Export]
+        [JavascriptInterface]
+        public void talk(string message){
+            if (vm == null) vm = new VoiceManager(context);
+            vm.Say(message);
+        }
+
+      
     }
-    
-    public class JavascriptResult : Java.Lang.Object, IValueCallback
-    {
-        Action<string> valueHandler;
 
-        public JavascriptResult(Action<string> onValue){
-            this.valueHandler = onValue;       
-        }
-
-        public void OnReceiveValue(Java.Lang.Object result)
-        {
-            string json = ((Java.Lang.String)result).ToString();
-            this.valueHandler(json);
-        }
-    }
 }
