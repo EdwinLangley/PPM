@@ -1,4 +1,11 @@
 
 
 Mavis.Notify("Hello World");
-Mavis.Say("Hi there");
+
+var MavisTalkStatus = Mavis.isReady();
+
+console.log(MavisTalkStatus);
+
+if (MavisTalkStatus === true){
+    Mavis.Say("Hi there");
+}

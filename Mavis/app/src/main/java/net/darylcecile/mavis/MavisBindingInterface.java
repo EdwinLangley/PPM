@@ -20,10 +20,19 @@ public class MavisBindingInterface {
     }
 
     @JavascriptInterface
+    public boolean isReady(){
+        return speaker.ready;
+    }
+
+    @JavascriptInterface
     public void Say(String text){
         speaker.Say(text);
     }
 
+    @JavascriptInterface
+    public void Shutdown(){
+        speaker.destroy();
+    }
 
     // Free up resources
     public void destroy(){
