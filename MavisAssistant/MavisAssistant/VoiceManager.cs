@@ -1,11 +1,13 @@
 ﻿using System;
-using Android.Speech.Tts;
+using Android.App;
 using Android.Content;
-using Android.Media;
-
+using Android.Speech.Tts;
+using Android.Util;
 using Java.Util;
 
+using Xamarin.Forms;
 
+[assembly: Xamarin.Forms.Dependency(typeof(MavisAssistant.VoiceManager))]
 namespace MavisAssistant
 {
 
@@ -16,31 +18,37 @@ namespace MavisAssistant
     public class VoiceManager : Java.Lang.Object, ITextToSpeech, TextToSpeech.IOnInitListener
     {
         TextToSpeech speaker;
-        string sentence;
         Context context;
 
-        public VoiceManager(Context context) { this.context = context; }
+        public VoiceManager() { 
+            this.context = Android.App.Application.Context;
+        }
 
         public void Say(string text){
-            sentence = text;
             if (speaker == null){
-                speaker = new TextToSpeech(context, this,"com.google.android.tts");
+                speaker = new TextToSpeech(context, this);
             }
             else{
-                speaker.Speak(sentence, QueueMode.Flush, null, null);
+
+                speaker.SetLanguage(Locale.Uk);
+                speaker.SetSpeechRate(0.8f);
+                speaker.SetPitch(1);
+
+                speaker.Speak(text, QueueMode.Flush, null, "Mavis");
             }
         }
 
-        public void OnInit(OperationResult status){
 
-            speaker.SetLanguage(Locale.Uk);
-            speaker.SetSpeechRate(0.8f);
-            speaker.SetPitch(1);
-
-            if (status.Equals(OperationResult.Success)){
-                speaker.Speak(sentence,QueueMode.Flush,null,null);
+        public void OnInit(OperationResult status)
+        {
+            if (status.Equals(OperationResult.Success))
+            {
+                speaker.Speak("Good morning", QueueMode.Flush, null, null);
             }
-
+            else{
+                Console.WriteLine("### Failed to initialize");
+                Log.Error("SPEECH","Failed to init");
+            }
         }
 
     }

@@ -7,13 +7,13 @@ using Android.Widget;
 
 using Java.Interop;
 using Android.Webkit;
+using Xamarin.Forms;
 
 namespace MavisAssistant
 {
     public class BindingManager : Java.Lang.Object
     {
         private Context context;
-        private VoiceManager vm;
 
         public BindingManager(Context context){
             this.context = context;
@@ -28,8 +28,9 @@ namespace MavisAssistant
         [Export]
         [JavascriptInterface]
         public void talk(string message){
-            if (vm == null) vm = new VoiceManager(context);
-            vm.Say(message);
+            Console.WriteLine("### TALKING {0}",message);
+
+            DependencyService.Get<VoiceManager>().Say(message);
         }
 
       

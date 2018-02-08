@@ -2,10 +2,11 @@
 using Android.Widget;
 using Android.OS;
 using Android.Webkit;
+using Android.Content.PM;
 
 namespace MavisAssistant
 {
-    [Activity(Label = "mavis assistant", MainLauncher = true, Theme = "@android:style/Theme.NoTitleBar")]
+    [Activity(Label = "mavis assistant", MainLauncher = true, Theme = "@android:style/Theme.NoTitleBar", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class MainActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
