@@ -1,8 +1,8 @@
 package net.darylcecile.mavis;
 
-import android.animation.TypeConverter;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import android.util.Log;
 
 import java.util.Locale;
@@ -22,7 +22,10 @@ public class VoiceController implements TextToSpeech.OnInitListener {
     @Override
     public void onInit(int status) {
         if(status == TextToSpeech.SUCCESS){
-            tts.setLanguage(Locale.UK);
+            tts.setPitch(0.7f);
+            tts.setSpeechRate(0.6f);
+            tts.setLanguage( Locale.getDefault() );
+            tts.speak("Hi",TextToSpeech.QUEUE_ADD,null,null);
             ready = true;
         }else{
             ready = false;

@@ -29,10 +29,11 @@ public class MainActivity extends Activity {
         MBI = new MavisBindingInterface(this);
 
         // load MavisWebUI
-        WebView webView = (WebView) findViewById(R.id.webview);
+        final WebView webView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.addJavascriptInterface( MBI , "Mavis");
+
         webView.loadUrl("file:///android_asset/index.html");
 
     }
@@ -40,6 +41,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        // end the tts service
         MBI.destroy();
     }
 }

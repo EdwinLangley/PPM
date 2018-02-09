@@ -2,10 +2,15 @@
 
 Mavis.Notify("Hello World");
 
-var MavisTalkStatus = Mavis.isReady();
 
-console.log(MavisTalkStatus);
+let talkHandler = ()=>{
+    let MavisTalkStatus = Mavis.isReady();
+    if (MavisTalkStatus === true){
+        Mavis.Say("Hi there");
+    }
+    else{
+        setTimeout(talkHandler,1000);
+    }
+};
 
-if (MavisTalkStatus === true){
-    Mavis.Say("Hi there");
-}
+setTimeout(talkHandler,1000);
