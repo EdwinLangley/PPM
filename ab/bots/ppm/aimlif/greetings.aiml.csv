@@ -1,0 +1,8 @@
+0,HI,*,*,<random><li> Hello! </li><li> Hi! Nice to meet you! </li></random>,greetings.aiml
+0,Hello,*,*,<srai>HI</srai>,greetings.aiml
+0,how are you,*,*,<random><li> Good! </li><li> I am okay thanks </li></random>,greetings.aiml
+0,I am *,*,*,Brilliant I'll remember that <set name = "username"><star/></set>,greetings.aiml
+0,My name is *,*,*,<srai>I am *</srai> <set name = "username"><star/></set>,greetings.aiml
+0,call me *,*,*,<srai>I am *</srai> <set name = "username"><star/></set>,greetings.aiml
+0,Good Evening,*,*,<srai>HI</srai>,greetings.aiml
+0,Good Night,*,*,Good Night,greetings.aiml

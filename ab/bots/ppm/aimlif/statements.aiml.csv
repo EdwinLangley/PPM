@@ -1,0 +1,2 @@
+0,Marco,*,*,Polo,statements.aiml
+0,MY CARER IS *,*,*,Okay your carer is <set name = "carer"><star/></set>,statements.aiml

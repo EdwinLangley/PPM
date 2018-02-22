@@ -1,0 +1,71 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+   <category>
+      <pattern>HI</pattern>
+
+      <template>
+         <random>
+            <li> Hello! </li>
+            <li> Hi! Nice to meet you! </li>
+         </random>
+      </template>
+    </category> 
+
+    <category>
+      <pattern>Hello</pattern>
+
+      <template>
+      		<srai>HI</srai>
+      </template>
+    </category> 
+
+    <category>
+      <pattern>how are you*</pattern>
+
+      <template>
+         <random>
+            <li> Good! </li>
+            <li> I am okay thanks </li>
+         </random>
+      </template>
+    </category> 
+      
+   <category> 
+   		<pattern>I am *</pattern>
+
+   		<template>
+   			Brilliant I'll remember that <set name = "username"><star/></set>
+   		</template>
+   	</category> 
+
+   	<category>
+      <pattern>My name is *</pattern>
+
+      <template>
+      		<srai>I am *</srai> <set name = "username"><star/></set>
+      </template>
+    </category> 
+
+    <pattern>call me *</pattern>
+
+      <template>
+      		<srai>I am *</srai> <set name = "username"><star/></set>
+      </template>
+    </category> 
+
+   	<category>
+      <pattern>Good Evening</pattern>
+
+      <template>
+      		<srai>HI</srai>
+      </template>
+    </category> 
+
+    <category>
+      <pattern>Good Night</pattern>
+
+      <template>Good Night</template>
+    </category> 
+
+</aiml>

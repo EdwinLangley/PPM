@@ -1,0 +1,47 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+    <category>
+      <pattern>SAY MY NAME</pattern>
+
+      <template>Your name is <get name = "username"/></template>
+    </category> 
+
+    <category>
+      <pattern>WHO IS MY CARER</pattern>
+
+      <template>Your carer is <get name = "carer"/></template>
+    </category> 
+
+   <category>
+      <pattern>I NEED MY CARER</pattern>
+      <template>Is this an emergency?</template>  
+   </category>
+   
+   <category>
+      <pattern>YES</pattern>
+      <that>Is this an emergency</that>
+      <template>Dialing</template>
+   </category>
+   
+   <category>
+      <pattern>NO</pattern>
+      <that>Is this an emergency</that>
+      <template>Should I set a reminder?</template>
+   </category> 
+
+    <category>
+      <pattern>YES</pattern>
+      <that>Should I set a reminder</that>
+      <template>What was the reminder?</template>
+   </category> 
+
+    <category>
+      <pattern>*</pattern>
+      <that>What was the reminder</that>
+      <template>Okay I set reminder for: <set name = "reminder"><star/></set></template>
+   </category> 
+
+
+
+</aiml>

@@ -1,0 +1,9 @@
+0,SAY MY NAME,*,*,Your name is <get name = "username"/>,questions.aiml
+0,WHO IS MY CARER,*,*,Your carer is <get name = "carer"/>,questions.aiml
+0,I NEED MY CARER,*,*,Is this an emergency?,questions.aiml
+0,YES,Is this an emergency?,*,Dialing,questions.aiml
+0,I NEED MY CARER,*,*,Is this an emergency?,questions.aiml
+0,YES,Is this an emergency,*,Dialing,questions.aiml
+0,NO,Is this an emergency,*,Should I set a reminder?,questions.aiml
+0,YES,Should I set a reminder,*,What was the reminder?,questions.aiml
+0,*,What was the reminder,*,Okay I set reminder for: <set name = "reminder"><star/></set>,questions.aiml
