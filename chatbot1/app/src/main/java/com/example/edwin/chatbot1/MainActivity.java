@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.mavis.support.AssetKit;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     ListView messageList;
     List<String> messageStrings;
     ArrayAdapter<String> arrayAdapter;
-
+    static AssetKit aKit;
 
 
 
@@ -45,8 +47,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         messageList= (ListView) findViewById(R.id.message_list);
+        aKit = new AssetKit(this);
 
         messageStrings = new ArrayList<String>();
+
+        aKit.copyAllAssets(); // move all assets into real directory
 
         runbot();
 
@@ -56,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         resourcesPath = getResourcesPath();
         System.out.println(resourcesPath);
         MagicBooleans.trace_mode = TRACE_MODE;
-        bot = new Bot("super", "" );//resourcesPath);
+        bot = new Bot("super", resourcesPath);
         chatSession = new Chat(bot);
         bot.brain.nodeStats();
         textLine = "";
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         path = path.substring(0, path.length() - 2);
         System.out.println(path);
         String resourcesPath = path + File.separator + "src" + File.separator + "main" + File.separator + "res";
-        return resourcesPath;
+        return aKit.getPath();
     }
 
     public void chatSend(View view) {
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.print("Human : ");
             editContents = (EditText) findViewById(R.id.edittext_chatbox);
             textLine = editContents.getText().toString();
-            editContents.setText("");
+            editContents.setText(aKit.getPath());
             messageStrings.add("Human: " + textLine);
             if ((textLine == null) || (textLine.length() < 1))
                 textLine = MagicStrings.null_input;
