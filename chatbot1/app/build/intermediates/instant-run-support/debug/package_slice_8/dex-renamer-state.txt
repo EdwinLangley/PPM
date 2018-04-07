@@ -1,0 +1,4 @@
+#Fri Feb 23 00:22:29 GMT 2018
+base.0=/Users/darylcecile/Desktop/PPM/chatbot1/app/build/intermediates/transforms/dexMerger/debug/8
+path.0=classes.dex
+renamed.0=classes.dex
