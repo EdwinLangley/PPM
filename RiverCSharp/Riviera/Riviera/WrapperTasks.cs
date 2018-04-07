@@ -32,12 +32,23 @@ namespace Riviera
                 setUpdateProgress(tasksCompleted, fileList.Length);
                 foreach (var file in fileList) {
                     Console.WriteLine(" >> Fetching " + file + " ...");
+
+                    string fetch_type = file.Split(':')[0];
+                    string fetch_name = file.Split(':')[1];
+
                     tasksCompleted++;
-                    if (file.Length > 0) new WebPack(file,(string fileContent,string fileLocalPath)=>{
-                        if (tasksCompleted == fileList.Length){
-                            callback.Invoke();
-                        }
-                    }).fetch();
+
+                    if ( fetch_type == Globals.FETCH_TYPE_IMAGE ){
+                        if (file.Length > 0) new WebPackImage(file, (string fileContent, string fileLocalPath) => {
+                            if (tasksCompleted == fileList.Length) callback.Invoke();
+                        }).fetch();
+                    }
+                    else{
+                        if (file.Length > 0) new WebPack(file, (string fileContent, string fileLocalPath) => {
+                            if (tasksCompleted == fileList.Length) callback.Invoke();
+                        }).fetch();
+                    }
+
                     setUpdateProgress(tasksCompleted, fileList.Length);
                 }
                 return false;

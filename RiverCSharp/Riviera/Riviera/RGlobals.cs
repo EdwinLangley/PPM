@@ -26,5 +26,8 @@ namespace Riviera
                 return Path.Combine(WORKING_DIRECTORY, "river_user");
             }
         }
+
+        public static readonly string FETCH_TYPE_IMAGE = "imgx";
+        public static readonly string FETCH_TYPE_FNAME = "";
     }
 }

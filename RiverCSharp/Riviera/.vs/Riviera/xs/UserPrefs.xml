@@ -1,12 +1,11 @@
 ﻿<Properties StartupConfiguration="{2EEC496F-C10D-47D4-9F2F-14B1E473D41E}|Default">
   <MonoDevelop.Ide.ItemProperties.Riviera AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_Nougat" AndroidDesignerPreferredTheme="Theme.DeviceDefault" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Riviera/RGlobals.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Riviera/MainActivity.cs">
     <Files>
-      <File FileName="Riviera/MainActivity.cs" Line="35" Column="86" />
-      <File FileName="Riviera/WrapperTasks.cs" Line="42" Column="18" />
+      <File FileName="Riviera/MainActivity.cs" Line="43" Column="2" />
+      <File FileName="Riviera/WrapperTasks.cs" Line="45" Column="22" />
       <File FileName="Riviera/RWeb.cs" Line="24" Column="4" />
-      <File FileName="Riviera/WrapperPacks.cs" Line="4" Column="14" />
-      <File FileName="Riviera/RGlobals.cs" Line="11" Column="14" />
+      <File FileName="Riviera/WrapperPacks.cs" Line="80" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
