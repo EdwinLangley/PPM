@@ -19,13 +19,20 @@ namespace Riviera
 
             WrapperTasks.setUpWebView(ref webView,this);
 
+            //Fetch first view (update)
             new WebPack("updating.html", (string content, string localPath) => {
-                
+
+                // load fetched view 
                 WrapperTasks.loadUrlAndCall("file:///" + localPath, ()=>{
+
+                    // synchronize local files with remote
                     WrapperTasks.SyncContentWithRemote( ()=>{
-                        // update complete
+                        
+                        // update complete, fetch and load dashboard view
                         new WebPack("dashboard.html",(string fileContent, string fileLocalPath) => {
                             webView.LoadUrl("file:///" + fileLocalPath);
+
+                            // other tasks are carried out by request from javascript
                         }).fetch();
                     } );
                 });
