@@ -107,6 +107,7 @@ class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
 		/* We need to ensure that "Riviera.dll" comes first in this list. */
 		"Riviera.dll",
+		"AIMLbot.dll",
 	};
 	public static final String[] Dependencies = new String[]{
 	};

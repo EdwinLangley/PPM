@@ -27,7 +27,7 @@ namespace RivieraInterfaces
 
         [Export]
         [JavascriptInterface]
-        public bool RequestTask(string taskName,object[] parameters){
+        public bool RequestTask(string taskName,string[] parameters){
 
             if ( TasksAllowed.Contains(taskName) ){
                 // TODO run tasks
