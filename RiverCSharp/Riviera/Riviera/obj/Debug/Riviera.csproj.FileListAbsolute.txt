@@ -60,6 +60,7 @@ D:/Users/Edwin/Documents/newPPM/PPM/RiverCSharp/Riviera/Riviera/obj/Debug/res/dr
 D:/Users/Edwin/Documents/newPPM/PPM/RiverCSharp/Riviera/Riviera/obj/Debug/R.cs.flag
 D:/Users/Edwin/Documents/newPPM/PPM/RiverCSharp/Riviera/Riviera/obj/Debug/uploadflags.txt
 >>>>>>> 3fa5fb1918ec211fcde069ccad70a2b923512337
+/Users/darylcecile/Desktop/PPM/RiverCSharp/Riviera/Riviera/bin/Debug/Riviera.xml
 /Users/darylcecile/Desktop/PPM/RiverCSharp/Riviera/Riviera/bin/Debug/Mono.Android.pdb
 /Users/darylcecile/Desktop/PPM/RiverCSharp/Riviera/Riviera/bin/Debug/Mono.Android.Export.pdb
 /Users/darylcecile/Desktop/PPM/RiverCSharp/Riviera/Riviera/obj/Debug/linksrc/Riviera.pdb

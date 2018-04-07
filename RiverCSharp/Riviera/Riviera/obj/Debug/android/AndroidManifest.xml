@@ -10,7 +10,6 @@
   <uses-permission android:name="android.permission.RECORD_AUDIO" />
   <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <application android:label="Riviera" android:icon="@drawable/icon" android:theme="@android:style/Theme.Material.Wallpaper.NoTitleBar" android:name="android.app.Application" android:allowBackup="true" android:debuggable="true">
     <activity android:icon="@drawable/icon" android:label="Riviera" android:name="md506c54510b74e157a098e252f45196a54.MainActivity">
       <intent-filter>
