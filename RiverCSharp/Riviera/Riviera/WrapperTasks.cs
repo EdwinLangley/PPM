@@ -44,7 +44,7 @@ namespace Riviera
                         }).fetch();
                     }
                     else{
-                        if (file.Length > 0) new WebPack(file, (string fileContent, string fileLocalPath) => {
+                        if (file.Length > 0) new WebPack(fetch_name, (string fileContent, string fileLocalPath) => {
                             if (tasksCompleted == fileList.Length) callback.Invoke();
                         }).fetch();
                     }
