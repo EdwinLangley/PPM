@@ -63,6 +63,7 @@
         <Compile Include="SystemReceiver.cs" />
         <Compile Include="WrapperTasks.cs" />
         <Compile Include="RWeb.cs" />
+        <Compile Include="RSupport.cs" />
     </ItemGroup>
     <ItemGroup>
         <AndroidResource Include="Resources\layout\Main.axml">

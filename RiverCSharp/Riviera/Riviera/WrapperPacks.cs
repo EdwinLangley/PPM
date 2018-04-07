@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 using System;
-using System.Runtime.InteropServices;
+using Riviera;
 
 namespace RivieraPacks
 {
@@ -18,9 +18,7 @@ namespace RivieraPacks
         public WebPack(string filename,Action<string,string> whenDone=null,bool start=false){
 
             bool skipWait = false;
-            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            Directory.CreateDirectory(Path.Combine(documentsPath, "river_app"));
-            string localPath = Path.Combine(documentsPath, "river_app", filename);
+            string localPath = Path.Combine(RSupport.ASSETS_DIRECTORY, filename);
                 
             if ( File.Exists( localPath ) == true ){
                 skipWait = true;
@@ -35,7 +33,7 @@ namespace RivieraPacks
 
             webClient.DownloadStringCompleted += (s, e) => {
                 var text = e.Result; // get the downloaded text
-                localPath = Path.Combine(documentsPath, "river_app", filename);
+                localPath = Path.Combine(RSupport.ASSETS_DIRECTORY, filename);
                 Console.WriteLine(" >> Updating " + localPath);
                 File.WriteAllText(localPath, text); // writes to local storage
                 if (skipWait==false) whenDone?.Invoke(text,localPath);
