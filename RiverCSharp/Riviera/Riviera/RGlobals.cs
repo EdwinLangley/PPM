@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Riviera
 {
-    public static class RSupport
+    public static class Globals
     {
         public static string WORKING_DIRECTORY{
             get {
