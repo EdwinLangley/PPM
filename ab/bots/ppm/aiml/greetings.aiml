@@ -21,12 +21,12 @@
     </category> 
 
     <category>
-      <pattern>how are you*</pattern>
-
+      <pattern>How are you </pattern>
       <template>
          <random>
             <li> Good! </li>
-            <li> I am okay thanks </li>
+            <li> I am good thanks </li>
+			<li> Well, thank you </li>
          </random>
       </template>
     </category> 
@@ -55,7 +55,23 @@
     </category> 
 
    	<category>
-      <pattern>Good Evening</pattern>
+      <pattern>Good evening</pattern>
+
+      <template>
+      		<srai>HI</srai>
+      </template>
+    </category> 
+	
+	   	<category>
+      <pattern>Good morning</pattern>
+
+      <template>
+      		<srai>HI</srai>
+      </template>
+    </category> 
+	
+	   	<category>
+      <pattern>Good afternoon</pattern>
 
       <template>
       		<srai>HI</srai>
@@ -63,9 +79,14 @@
     </category> 
 
     <category>
-      <pattern>Good Night</pattern>
-
-      <template>Good Night</template>
+      <pattern>Good night</pattern>
+      <template>
+         <random>
+            <li> Good night </li>
+            <li> Night night </li>
+			<li> Sleep well </li>
+         </random>
+      </template>
     </category> 
 
 </aiml>

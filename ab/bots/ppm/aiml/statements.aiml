@@ -12,5 +12,25 @@
 
       <template>Okay your carer is <set name = "carer"><star/></set></template>
   </category> 
+  
+    <category>
+      <pattern>WHAT IS MY NAME</pattern>
 
+      <template>Your name is <get name = "username"><star/></get></template>
+  </category> 
+  
+      <category>
+      <pattern>SAY MY NAME</pattern>
+
+      <template><srai> WHAT IS MY NAME</srai><get name = "username"/></template>
+    </category> 
+
+  
+      <category>
+      <pattern>WHO AM I</pattern>
+
+      <srai> MY SON IS * </srai><get name = "username"><star/></get>
+  </category> 
+  
+  
 </aiml>

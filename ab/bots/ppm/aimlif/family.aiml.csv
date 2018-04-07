@@ -1,0 +1,10 @@
+0,MY DAUGHTER IS *,*,*,Okay your daughter is <set name = "daughter"><star/> </set>,family.aiml
+0,MY DAUGHTER S NAME IS *,*,*,<srai> MY DAUGHTER IS * </srai> <set name = "daughter"><star/></set>,family.aiml
+0,MY SON IS *,*,*,Okay your son is <set name = "son"><star/> </set>,family.aiml
+0,MY SON S NAME IS *,*,*,<srai> MY SON IS * </srai> <set name = "son"><star/></set>,family.aiml
+
+0,MY GRANDDAUGHTER IS *,*,*, Okay, your granddaughter is <set name = "granddaughter"><star/></set>,family.aiml
+0,MY GRANDDAUGHTER S NAME IS *,*,*,<srai> MY GRANDDAUGHTER IS * </srai> <set name = "granddaughter"><star/></set>,family.aiml
+
+0,MY GRANDSON IS *,*,*, Okay your grandson is <set name = "grandson"><star/></set>,family.aiml
+0,MY GRANDSON S NAME IS *,*,*,<srai> MY GRANDSON IS * </srai> <set name = "grandson"><star/></set>,family.aiml

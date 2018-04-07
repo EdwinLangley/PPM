@@ -1,2 +1,5 @@
 0,Marco,*,*,Polo,statements.aiml
 0,MY CARER IS *,*,*,Okay your carer is <set name = "carer"><star/></set>,statements.aiml
+0,WHAT IS MY NAME,*,*,Your name is <get name = "username"><star/></get>,statements.aiml
+0,SAY MY NAME,*,*,<srai> WHAT IS MY NAME</srai><get name = "username"><star/></get>,statements.aiml
+0,WHO AM I,*,*,,<srai> WHAT IS MY NAME </srai> <get name = "username"><star/></get>,statements.aiml

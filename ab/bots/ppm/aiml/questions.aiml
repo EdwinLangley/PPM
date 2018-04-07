@@ -2,12 +2,6 @@
 <aiml version = "1.0.1" encoding ="UTF-8"?>
 
     <category>
-      <pattern>SAY MY NAME</pattern>
-
-      <template>Your name is <get name = "username"/></template>
-    </category> 
-
-    <category>
       <pattern>WHO IS MY CARER</pattern>
 
       <template>Your carer is <get name = "carer"/></template>

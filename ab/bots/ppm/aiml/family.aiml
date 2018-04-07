@@ -1,0 +1,54 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+  <category>
+      <pattern>MY DAUGHTER IS *</pattern>
+
+      <template>Okay your daughter is <set name = "daughter"><star/></set></template>
+  </category> 
+
+    <category>
+      <pattern>MY DAUGHTER S NAME IS *</pattern>
+		<template>
+		<srai> MY DAUGHTER IS * </srai><set name = "daughter"><star/></set>
+	  </template>
+  </category> 
+  
+    <category>
+      <pattern>MY SON IS *</pattern>
+
+      <template>Okay your son is <set name = "son"><star/></set></template>
+  </category> 
+
+    <category>
+      <pattern>MY SON S NAME IS *</pattern>
+		<template>
+		<srai> MY SON IS * </srai><set name = "son"><star/></set>
+	  </template>
+  </category> 
+  
+      <category>
+      <pattern>MY GRANDDAUGHTER IS *</pattern>
+
+      <template>Okay your granddaughter is <set name = "granddaughter"><star/></set></template>
+  </category> 
+
+    <category>
+      <pattern>MY GRANDDAUGHTER S NAME IS *</pattern>
+		<template>
+		<srai> MY GRANDDAUGHTER IS * </srai><set name = "granddaughter"><star/></set>
+	  </template>
+  </category> 
+  
+        <category>
+      <pattern>MY GRANDSON IS *</pattern>
+
+      <template>Okay your grandson is <set name = "grandson"><star/></set></template>
+  </category> 
+
+    <category>
+      <pattern>MY GRANDSON S NAME IS *</pattern>
+		<template>
+		<srai> MY GRANDSON IS * </srai><set name = "grandson"><star/></set>
+	  </template>
+  </category> 
