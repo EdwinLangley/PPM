@@ -39,7 +39,7 @@ namespace Riviera
                     tasksCompleted++;
 
                     if ( fetch_type == Globals.FETCH_TYPE_IMAGE ){
-                        if (file.Length > 0) new WebPackImage(file, (string fileContent, string fileLocalPath) => {
+                        if (file.Length > 0) new WebPackImage(fetch_name, (string fileContent, string fileLocalPath) => {
                             if (tasksCompleted == fileList.Length) callback.Invoke();
                         }).fetch();
                     }

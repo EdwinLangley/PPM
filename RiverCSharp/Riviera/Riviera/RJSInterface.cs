@@ -4,14 +4,13 @@ using Android.Widget;
 using Java.Interop;
 using System.Linq;
 using Riviera;
+using System.Collections.Generic;
 
 namespace RivieraInterfaces
 {
     class RJSInterface : Java.Lang.Object
     {
         Context context;
-
-        public readonly string[] TasksAllowed = {  };
 
         public RJSInterface(Context context)
         {
@@ -25,17 +24,17 @@ namespace RivieraInterfaces
             Toast.MakeText(context, "Hello from C#", ToastLength.Short).Show();
         }
 
-        [Export]
-        [JavascriptInterface]
-        public bool RequestTask(string taskName,string[] parameters){
+        //[Export]
+        //[JavascriptInterface]
+        //public bool RequestTask(string taskName,string[] parameters){
 
-            if ( TasksAllowed.Contains(taskName) ){
-                // TODO run tasks
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
+        //    //if ( TasksAllowed.Contains(taskName) ){
+        //    //    // TODO run tasks
+        //    //    return true;
+        //    //}
+        //    //else{
+        //        return false;
+        //    //}
+        //}
     }
 }
