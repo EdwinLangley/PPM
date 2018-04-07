@@ -100,7 +100,7 @@ namespace RivieraPacks
 
             url = new Uri(root + fileName);
             Console.WriteLine(" >> Downloading " + url);
-            webClient.DownloadData(url);
+            webClient.DownloadDataAsync(url);
         }
     }
 }

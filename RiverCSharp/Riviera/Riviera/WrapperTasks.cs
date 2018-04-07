@@ -35,20 +35,20 @@ namespace Riviera
                     string fetch_type = file.Split(':')[0];
                     string fetch_name = file.Split(':')[1];
 
-                    tasksCompleted++;
-
                     if ( fetch_type == Globals.FETCH_TYPE_IMAGE ){
                         if (fetch_name.Length > 0) new WebPackImage(fetch_name, (string fileContent, string fileLocalPath) => {
+                            tasksCompleted++;
+                            setUpdateProgress(tasksCompleted, fileList.Length);
                             if (tasksCompleted == fileList.Length) callback.Invoke();
                         }).fetch();
                     }
                     else{
                         if (fetch_name.Length > 0) new WebPack(fetch_name, (string fileContent, string fileLocalPath) => {
+                            tasksCompleted++;
+                            setUpdateProgress(tasksCompleted, fileList.Length);
                             if (tasksCompleted == fileList.Length) callback.Invoke();
                         }).fetch();
                     }
-
-                    setUpdateProgress(tasksCompleted, fileList.Length);
                 }
                 return false;
             });

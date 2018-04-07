@@ -1,12 +1,11 @@
 ﻿<Properties StartupConfiguration="{2EEC496F-C10D-47D4-9F2F-14B1E473D41E}|Default">
   <MonoDevelop.Ide.ItemProperties.Riviera AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_Nougat" AndroidDesignerPreferredTheme="Theme.DeviceDefault" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Riviera/IDataStorage.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Riviera/WrapperTasks.cs">
     <Files>
       <File FileName="Riviera/MainActivity.cs" Line="43" Column="2" />
-      <File FileName="Riviera/WrapperTasks.cs" Line="45" Column="22" />
+      <File FileName="Riviera/WrapperTasks.cs" Line="45" Column="59" />
       <File FileName="Riviera/RWeb.cs" Line="24" Column="4" />
-      <File FileName="Riviera/WrapperPacks.cs" Line="80" Column="10" />
-      <File FileName="../../../../../../Library/Frameworks/Xamarin.Android.framework/Versions/8.2.0-16/lib/xamarin.android/xbuild/Xamarin/Android/Xamarin.Android.Common.targets" Line="1846" Column="3" />
+      <File FileName="Riviera/WrapperPacks.cs" Line="103" Column="40" />
       <File FileName="Riviera/RJSInterface.cs" Line="30" Column="1" />
       <File FileName="Riviera/IDataStorage.cs" Line="1" Column="1" />
     </Files>
