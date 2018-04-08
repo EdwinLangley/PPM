@@ -7,6 +7,7 @@ using RivieraWeb;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using Java.Lang;
 
 namespace Riviera
 {
@@ -34,7 +35,9 @@ namespace Riviera
             WebPack.getFileListAsync((string[] fileList) => {
                 setUpdateProgress(tasksCompleted, fileList.Length);
 
-                fileList = (string[])fileList.Where(c => !c.StartsWith("//", StringComparison.Ordinal));
+                fileList = fileList.Where(c => {
+                    return (c[0] != '/' && c[1] != '/');
+                }).ToArray();
 
                 foreach (var file in fileList) {
                     Console.WriteLine(" >> Fetching " + file + " ...");
@@ -64,7 +67,10 @@ namespace Riviera
         public static void setUpdateProgress(int taskCompletedCount, int taskCount){
             double completionPercent = (((double)taskCompletedCount / (double)taskCount) * 100);
             Console.WriteLine(" >> " + completionPercent);
-            w.EvaluateJavascript("RiverUpdate.updateProgress("+ completionPercent +")",null);
+            w.Post(new Runnable(() =>
+            {
+                w.EvaluateJavascript("RiverUpdate.updateProgress("+ completionPercent +")",null);
+            }));
             Console.WriteLine(" => RiverUpdate.updateProgress(" + completionPercent + ") " + taskCompletedCount + "/" + taskCount);
         }
     }

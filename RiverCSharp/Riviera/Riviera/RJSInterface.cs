@@ -2,9 +2,10 @@
 using Android.Webkit;
 using Android.Widget;
 using Java.Interop;
-using System.Linq;
 using Riviera;
-using System.Collections.Generic;
+using Android.App;
+using RivieraManagers;
+using RivieraWeb;
 
 namespace RivieraInterfaces
 {
@@ -19,22 +20,36 @@ namespace RivieraInterfaces
 
         [Export]
         [JavascriptInterface]
-        public void ShowToast()
+        public void ShowToast(string content)
         {
-            Toast.MakeText(context, "Hello from C#", ToastLength.Short).Show();
+            Toast.MakeText(context, content, ToastLength.Short).Show();
         }
 
-        //[Export]
-        //[JavascriptInterface]
-        //public bool RequestTask(string taskName,string[] parameters){
+        [Export]
+        [JavascriptInterface]
+        public void ShowAlert(string title, string content){
+            AlertDialog.Builder ab = new AlertDialog.Builder(context);
+            ab.SetTitle(title);
+            ab.SetMessage(content);
+            ab.Show();
+        }
 
-        //    //if ( TasksAllowed.Contains(taskName) ){
-        //    //    // TODO run tasks
-        //    //    return true;
-        //    //}
-        //    //else{
-        //        return false;
-        //    //}
-        //}
+        [Export]
+        [JavascriptInterface]
+        public string RegisterTask(string identifier){
+            RTaskManager.RTask task = new RTaskManager.RTask();
+            task.identifier = identifier;
+            RTaskManager.taskList.Add(task);
+            return task.identifier;
+        }
+
+        [Export]
+        [JavascriptInterface]
+        public string SyncWithRemote(string taskIdentifier){
+            RTaskManager.RTask task = RTaskManager.taskList.Find((RTaskManager.RTask obj) => obj.identifier == taskIdentifier);
+            WrapperTasks.SyncContentWithRemote(task.Complete);
+            return task.identifier;
+        }
+
     }
 }

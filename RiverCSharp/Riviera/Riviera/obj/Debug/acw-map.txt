@@ -1,3 +1,7 @@
+RivieraWeb.RJSCallback, Riviera;md510ccf978aa03045e2356d8a3458e42b4.RJSCallback
+RivieraWeb.RJSCallback, Riviera, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md510ccf978aa03045e2356d8a3458e42b4.RJSCallback
+RivieraWeb.RJSCallback;md510ccf978aa03045e2356d8a3458e42b4.RJSCallback
+rivieraweb.RJSCallback;md510ccf978aa03045e2356d8a3458e42b4.RJSCallback
 RivieraWeb.RWebClient, Riviera;md510ccf978aa03045e2356d8a3458e42b4.RWebClient
 RivieraWeb.RWebClient, Riviera, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md510ccf978aa03045e2356d8a3458e42b4.RWebClient
 RivieraWeb.RWebClient;md510ccf978aa03045e2356d8a3458e42b4.RWebClient
