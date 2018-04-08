@@ -4,6 +4,9 @@ using Android.Webkit;
 using RivieraInterfaces;
 using RivieraPacks;
 using RivieraWeb;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Riviera
 {
@@ -19,9 +22,10 @@ namespace Riviera
             webView.AddJavascriptInterface(new RJSInterface(context), "River");
         }
 
-        public static void loadUrlAndCall(string url,Action whenComplete){
-            rwc.whenReady(whenComplete);
-            w.LoadUrl(url);
+        public static void loadUrlAndCall(string url,Action whenComplete=null){
+            // List<string> url,Action whenComplete
+            if (whenComplete != null) rwc.whenReady(whenComplete);
+            w.LoadUrl("file:///" + url);
         }
 
         public static void SyncContentWithRemote(Action callback){
@@ -29,13 +33,16 @@ namespace Riviera
             int tasksCompleted = 0;
             WebPack.getFileListAsync((string[] fileList) => {
                 setUpdateProgress(tasksCompleted, fileList.Length);
+
+                fileList = (string[])fileList.Where(c => !c.StartsWith("//", StringComparison.Ordinal));
+
                 foreach (var file in fileList) {
                     Console.WriteLine(" >> Fetching " + file + " ...");
 
                     string fetch_type = file.Split(':')[0];
                     string fetch_name = file.Split(':')[1];
 
-                    if ( fetch_type == Globals.FETCH_TYPE_IMAGE ){
+                    if ( fetch_type == Global.FETCH_TYPE_IMAGE ){
                         if (fetch_name.Length > 0) new WebPackImage(fetch_name, (string fileContent, string fileLocalPath) => {
                             tasksCompleted++;
                             setUpdateProgress(tasksCompleted, fileList.Length);

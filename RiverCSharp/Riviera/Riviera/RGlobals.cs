@@ -3,8 +3,13 @@ using System.IO;
 
 namespace Riviera
 {
-    public static class Globals
+    public static class Global
     {
+
+        public static string AssetPath(string assetName){
+            return Path.Combine(ASSETS_DIRECTORY, assetName);
+        }
+
         public static string WORKING_DIRECTORY{
             get {
                 return Environment.GetFolderPath(Environment.SpecialFolder.Personal);

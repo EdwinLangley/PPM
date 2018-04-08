@@ -21,7 +21,7 @@ namespace RivieraPacks
         public WebPack(string filename,Action<string,string> whenDone=null,bool start=false){
 
             bool skipWait = false;
-            string localpath = Path.Combine(Globals.ASSETS_DIRECTORY, filename);
+            string localpath = Path.Combine(Global.ASSETS_DIRECTORY, filename);
                 
             if ( File.Exists( localPath ) == true ){
                 skipWait = true;
@@ -43,10 +43,11 @@ namespace RivieraPacks
             }
         }
 
-        protected virtual void linkEvent(bool skipWait,string localPath,string filename,Action<string,string> whenDone=null){
+        protected virtual void linkEvent(bool skipWait,string remotePath,string localPath,string filename,Action<string,string> whenDone=null){
+            
             webClient.DownloadStringCompleted += (s, e) => {
                 var text = e.Result; // get the downloaded text
-                localPath = Path.Combine(Globals.ASSETS_DIRECTORY, filename);
+                localPath = Path.Combine(Global.ASSETS_DIRECTORY, filename);
                 Console.WriteLine(" >> Updating " + localPath);
                 File.WriteAllText(localPath, text); // writes to local storage
                 if (skipWait == false) whenDone?.Invoke(text, localPath);
@@ -62,9 +63,10 @@ namespace RivieraPacks
         }
 
         public virtual void fetch(){
-            linkEvent(waitSkipped, localPath, fileName, whenReceived);
-
             url = new Uri(root + fileName);
+
+            linkEvent(waitSkipped, url.ToString() ,localPath, fileName, whenReceived);
+
             Console.WriteLine(" >> Downloading " + url);
             webClient.DownloadStringAsync(url);
         }
@@ -83,11 +85,11 @@ namespace RivieraPacks
             }
         }
 
-        override protected void linkEvent(bool skipWait, string localPath, string filename, Action<string, string> whenDone = null)
+        override protected void linkEvent(bool skipWait,string remotePath, string localPath, string filename, Action<string, string> whenDone = null)
         {
             webClient.DownloadDataCompleted += (s, e) => {
                 var bytes = e.Result; // get the downloaded text
-                localPath = Path.Combine(Globals.ASSETS_DIRECTORY, filename);
+                localPath = Path.Combine(Global.ASSETS_DIRECTORY, filename);
                 Console.WriteLine(" >> Updating " + localPath);
                 File.WriteAllBytes(localPath, bytes); // writes to local storage
                 if (skipWait == false) whenDone?.Invoke("", localPath);
@@ -96,9 +98,10 @@ namespace RivieraPacks
 
         override public void fetch()
         {
-            linkEvent(waitSkipped, localPath, fileName, whenReceived);
-
             url = new Uri(root + fileName);
+
+            linkEvent(waitSkipped, url.ToString(),localPath, fileName, whenReceived);
+
             Console.WriteLine(" >> Downloading " + url);
             webClient.DownloadDataAsync(url);
         }

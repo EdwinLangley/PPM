@@ -1,4 +1,6 @@
-﻿using Android.App;
+﻿using System;
+using System.IO;
+using Android.App;
 using Android.OS;
 using Android.Webkit;
 using RivieraPacks;
@@ -17,23 +19,21 @@ namespace Riviera
 
             WebView webView = FindViewById<WebView>(Resource.Id.webView1);
 
+            WebView.SetWebContentsDebuggingEnabled(true);
+
             WrapperTasks.setUpWebView(ref webView,this);
 
             //Fetch first view (update)
             new WebPack("updating.html", (string content, string localPath) => {
 
                 // load fetched view 
-                WrapperTasks.loadUrlAndCall("file:///" + localPath, ()=>{
+                WrapperTasks.loadUrlAndCall(localPath, ()=>{
 
                     // synchronize local files with remote
                     WrapperTasks.SyncContentWithRemote( ()=>{
-                        
-                        // update complete, fetch and load dashboard view
-                        new WebPack("dashboard.html",(string fileContent, string fileLocalPath) => {
-                            webView.LoadUrl("file:///" + fileLocalPath);
 
-                            // other tasks are carried out by request from javascript
-                        }).fetch();
+                        WrapperTasks.loadUrlAndCall( Global.AssetPath("dashboard.html") );
+
                     } );
                 });
             }).fetch();
