@@ -12,7 +12,7 @@ public class RJSInterface
 		__md_methods = 
 			"n_ShowToast:(Ljava/lang/String;)V:__export__\n" +
 			"n_ShowAlert:(Ljava/lang/String;Ljava/lang/String;)V:__export__\n" +
-			"n_NewTask:(Ljava/lang/String;)Ljava/lang/String;:__export__\n" +
+			"n_RegisterTask:(Ljava/lang/String;)Ljava/lang/String;:__export__\n" +
 			"n_SyncWithRemote:(Ljava/lang/String;)Ljava/lang/String;:__export__\n" +
 			"";
 		mono.android.Runtime.register ("RivieraInterfaces.RJSInterface, Riviera, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", RJSInterface.class, __md_methods);
@@ -53,12 +53,12 @@ public class RJSInterface
 
 	@android.webkit.JavascriptInterface
 
-	public java.lang.String NewTask (java.lang.String p0)
+	public java.lang.String RegisterTask (java.lang.String p0)
 	{
-		return n_NewTask (p0);
+		return n_RegisterTask (p0);
 	}
 
-	private native java.lang.String n_NewTask (java.lang.String p0);
+	private native java.lang.String n_RegisterTask (java.lang.String p0);
 
 	@android.webkit.JavascriptInterface
 

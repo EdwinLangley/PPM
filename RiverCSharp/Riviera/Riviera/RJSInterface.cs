@@ -36,8 +36,9 @@ namespace RivieraInterfaces
 
         [Export]
         [JavascriptInterface]
-        public string RegisterTask(string identifier){
+        public string RegisterTask(string identifier=null){
             RTaskManager.RTask task = new RTaskManager.RTask();
+            if (identifier == null) identifier = RTaskManager.GenID();
             task.identifier = identifier;
             RTaskManager.taskList.Add(task);
             return task.identifier;
