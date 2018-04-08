@@ -49,6 +49,8 @@ namespace RivieraPacks
                 var text = e.Result; // get the downloaded text
                 localPath = Path.Combine(Global.ASSETS_DIRECTORY, filename);
                 Console.WriteLine(" >> Updating " + localPath);
+                System.IO.FileInfo file = new System.IO.FileInfo(localPath);
+                file.Directory.Create(); // does nothing if folder exists
                 File.WriteAllText(localPath, text); // writes to local storage
                 if (skipWait == false) whenDone?.Invoke(text, localPath);
             };
@@ -91,6 +93,8 @@ namespace RivieraPacks
                 var bytes = e.Result; // get the downloaded text
                 localPath = Path.Combine(Global.ASSETS_DIRECTORY, filename);
                 Console.WriteLine(" >> Updating " + localPath);
+                System.IO.FileInfo file = new System.IO.FileInfo(localPath);
+                file.Directory.Create(); // does nothing if folder exists
                 File.WriteAllBytes(localPath, bytes); // writes to local storage
                 if (skipWait == false) whenDone?.Invoke("", localPath);
             };
