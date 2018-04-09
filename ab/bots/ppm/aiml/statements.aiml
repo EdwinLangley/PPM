@@ -29,7 +29,7 @@
       <category>
       <pattern>WHO AM I</pattern>
 
-      <srai> MY SON IS * </srai><get name = "username"><star/></get>
+      <template><srai> WHAT IS MY NAME </srai><get name = "username"></get></template>
   </category> 
   
   

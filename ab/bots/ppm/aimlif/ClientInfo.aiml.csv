@@ -1,0 +1,16 @@
+0, I AM FROM *,*,*,I will remember that you are from <set name="birthplace"><star/></set>,ClientInfo.aiml
+0, MY LAST NAME IS *,*,*, Okay I will remeber that your last name is <set name="lastname"/><star/>,ClientInfo.aiml
+0, MY SURNAME IS *,*,*, <srai>MY LAST NAME IS * <set name="lastname"/><star/>,ClientInfo.aiml
+0, WHAT IS MY LAST NAME ,*,*, your last name is <get name="lastname"/>,ClientInfo.aiml
+0, WHAT IS MY SURNAME ,*,*,<srai> WHAT IS MY LAST NAME</srai><get name="lastname"/>,ClientInfo.aiml
+0, MY BIRTH PLACE ,*,*,I will remeber that you were born in <set name="birthplace"/> ,ClientInfo.aiml
+0, I WAS BORN IN *,*,*, I will remeber that you were born in <set name="birthplace"/><star/>, ClientInfo.aiml
+0, WHERE WAS I BORN ,*,*, <srai> MY BIRTHPLACE </srai><get name="birthplace"/>,ClientInfo.aiml
+0, MY BIRTHDAY ,*,*, <srai> WHEN IS MY BIRTHDAY </srai><get name="birthday"/>, ClientInfo.aiml
+0, MY BIRTHDAY IS *,*,*, I will remember your birthday is <set name="birthday"><star/></set>, ClientInfo.aiml
+0, MY BIRTHDATE IS *,*,*, <srai> MY BIRTHDAY IS * <set name="birthdate"><star/></set>, ClientInfo.aiml
+0, WHEN IS MY BIRTHDAY ,*,*, You said it was <get name="birthday"/>, ClientInfo.aiml
+0, MY BIRTHDATE ,*,*, <srai> WHEN IS MY BIRTHDAY </srai><get name="birthdate"/>, ClientInfo.aiml
+0, I AM * YEARS OLD ,*,*, I will remember that you are <set name="age"><star/></set>, ClientInfo.aiml
+0, HOW OLD AM I ,*,*, You said you were <get name="age"/>, ClientInfo.aiml
+0, MY AGE ,*,*, <srai>HOW OLD AM I</srai><get name="age"/>, ClientInfo.aiML

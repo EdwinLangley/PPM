@@ -1,4 +1,3 @@
-0,SAY MY NAME,*,*,Your name is <get name = "username"/>,questions.aiml
 0,WHO IS MY CARER,*,*,Your carer is <get name = "carer"/>,questions.aiml
 0,I NEED MY CARER,*,*,Is this an emergency?,questions.aiml
 0,YES,Is this an emergency?,*,Dialing,questions.aiml

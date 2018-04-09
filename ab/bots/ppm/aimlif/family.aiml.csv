@@ -1,5 +1,6 @@
 0,MY DAUGHTER IS *,*,*,Okay your daughter is <set name = "daughter"><star/> </set>,family.aiml
 0,MY DAUGHTER S NAME IS *,*,*,<srai> MY DAUGHTER IS * </srai> <set name = "daughter"><star/></set>,family.aiml
+
 0,MY SON IS *,*,*,Okay your son is <set name = "son"><star/> </set>,family.aiml
 0,MY SON S NAME IS *,*,*,<srai> MY SON IS * </srai> <set name = "son"><star/></set>,family.aiml
 
@@ -8,3 +9,33 @@
 
 0,MY GRANDSON IS *,*,*, Okay your grandson is <set name = "grandson"><star/></set>,family.aiml
 0,MY GRANDSON S NAME IS *,*,*,<srai> MY GRANDSON IS * </srai> <set name = "grandson"><star/></set>,family.aiml
+
+0,MY HUSBAND IS *,*,*, Okay your husband is <set name = "husband"><star/></set>,family.aiml
+0,MY HUSBAND S NAME IS *,*,*,<srai> MY HUSBAND IS * </srai> <set name = "husband"><star/></set>,family.aiml
+
+0,MY WIFE IS *,*,*, Okay your wife is <set name = "wife"><star/></set>,family.aiml
+0,MY WIFE S NAME IS *,*,*,<srai> MY WIFE IS * </srai> <set name = "wife"><star/></set>,family.aiml
+
+0,MY BROTHER IS *,*,*, Okay your brother is <set name = "brother"><star/></set>,family.aiml
+0,MY BROTHER S NAME IS *,*,*,<srai> MY BROTHER IS * </srai> <set name = "brother"><star/></set>,family.aiml
+
+0,MY SISTER IS *,*,*, Okay your sister is <set name = "sister"><star/></set>,family.aiml
+0,MY SISTER S NAME IS *,*,*,<srai> MY SISTER IS * </srai> <set name = "sister"><star/></set>,family.aiml
+
+0,WHO IS MY BROTHER ,*,*, You said he was <get name="brother"/>,family.aiml
+0,WHAT IS MY BROTHER S NAME,*,*,<srai>WHO IS MY BROTHER </srai> <get name = "brother"><star/></set>,family.aiml
+
+0,WHO IS MY SISTER ,*,*, You said she was <get name="sister"/>,family.aiml
+0,WHAT IS MY SISTER S NAME,*,*,<srai>WHO IS MY SISTER </srai> <get name = "sister"><star/></set>,family.aiml
+
+0,WHO IS MY WIFE ,*,*, You said she was <get name="wife"/>,family.aiml
+0,WHAT IS MY WIFE S NAME,*,*,<srai>WHO IS MY WIFE </srai> <get name = "wife"><star/></set>,family.aiml
+
+0,WHO IS MY HUSBAND ,*,*, You said he was <get name="husband"/>,family.aiml
+0,WHAT IS MY HUSBAND S NAME,*,*,<srai>WHO IS MY HUSBAND </srai> <get name = "husband"><star/></set>,family.aiml
+
+0,WHO IS MY DAUGHTER ,*,*, You said she was <get name="daughter"/>,family.aiml
+0,WHAT IS MY DAUGHTER S NAME,*,*,<srai>WHO IS MY DAUGHTER </srai> <get name = "daughter"><star/></set>,family.aiml
+
+0,WHO IS MY SON ,*,*, You said he was <get name="son"/>,family.aiml
+0,WHAT IS MY SON S NAME,*,*,<srai>WHO IS MY SON </srai> <get name = "son"><star/></set>,family.aiml

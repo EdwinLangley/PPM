@@ -52,3 +52,129 @@
 		<srai> MY GRANDSON IS * </srai><set name = "grandson"><star/></set>
 	  </template>
   </category> 
+  
+          <category>
+      <pattern>MY HUSBAND IS *</pattern>
+
+      <template>Okay your husband is <set name = "husband"><star/></set></template>
+  </category> 
+
+    <category>
+      <pattern>MY HUSBAND S NAME IS *</pattern>
+		<template>
+		<srai> MY HUSBAND IS * </srai><set name = "husband"><star/></set>
+	  </template>
+  </category>
+  
+            <category>
+      <pattern>MY WIFE IS *</pattern>
+
+      <template>Okay your wife is <set name = "wife"><star/></set></template>
+  </category> 
+
+    <category>
+      <pattern>MY WIFE S NAME IS *</pattern>
+		<template>
+		<srai> MY wife IS * </srai><set name = "wife"><star/></set>
+	  </template>
+  </category>
+
+          <category>
+      <pattern>MY BROTHER IS *</pattern>
+
+      <template>Okay your brother is <set name = "brother"><star/></set></template>
+  </category> 
+
+    <category>
+      <pattern>MY BROTHER S NAME IS *</pattern>
+		<template>
+		<srai> MY BROTHER IS * </srai><set name = "brother"><star/></set>
+	  </template>
+  </category>   
+  
+            <category>
+      <pattern>MY SISTER IS *</pattern>
+
+      <template>Okay your sister is <set name = "sister"><star/></set></template>
+  </category> 
+
+    <category>
+      <pattern>MY SISTER S NAME IS *</pattern>
+		<template>
+		<srai> MY SISTER IS * </srai><set name = "sister"><star/></set>
+	  </template>
+  </category>   
+  
+  
+  <category>
+  <pattern>WHO IS MY BROTHER</pattern>
+<template>You said he was <get name="brother"/></template>
+</category>
+  
+  <category>
+  <pattern>WHAT IS MY BROTHER S NAME</pattern>
+<template>
+<srai> WHO IS MY BROTHER</srai><get name="brother"/>
+</template>
+</category>
+
+  <category>
+  <pattern>WHO IS MY SISTER</pattern>
+<template>You said she was <get name="sister"/></template>
+</category>
+  
+  <category>
+  <pattern>WHAT IS MY SISTERS S NAME</pattern>
+<template>
+<srai> WHO IS MY SISTER</srai><get name="brother"/>
+</template>
+</category>
+  
+  <category>
+  <pattern>WHAT IS MY WIFE S NAME</pattern>
+<template>
+<srai>WHO IS MY WIFE</srai><get name="wife"/>
+</template>
+</category>
+
+  <category>
+  <pattern>WHO IS MY WIFE</pattern>
+<template> You said she was called<get name="wife"/>
+</template>
+</category>
+
+  <category>
+  <pattern>WHO IS MY HUSBAND</pattern>
+<template> You said he was <get name="husband"/></template>
+</category>
+
+<category>
+<pattern>WHAT IS MY HUSBAND S NAME</pattern>
+<template>
+<srai>WHO IS MY HUSBAND</srai><get name="husband"/>
+</template>
+</category>
+
+  <category>
+  <pattern>WHO IS MY DAUGHTER</pattern>
+<template> You said she was called<get name="daughter"/></template>
+</category>
+
+<category><pattern>WHAT IS MY DAUGHTER S NAME</pattern>
+<template>
+<srai>WHO IS MY DAUGHTER </srai><get name="daughter"/>
+</template>
+</category>
+  
+  
+    <category>
+  <pattern>WHO IS MY SON</pattern>
+<template> You said he was called<get name="son"/></template>
+</category>
+
+<category><pattern>WHAT IS MY SON S NAME</pattern>
+<template>
+<srai>WHO IS MY SON </srai><get name="son"/>
+</template>
+</category>
+  

@@ -1,0 +1,66 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+<category><pattern>I AM FROM *</pattern>
+<template> I will remember that you are from <set name="birthplace"><star/></set></think></template>
+</category>
+
+<category><pattern>MY LAST NAME IS *</pattern>
+<template> Okay I will remeber that your last name is <set name="lastname"/><star/></template>
+</category>
+
+<category><pattern>MY SURNAME IS *</pattern>
+<template> <srai>MY LAST NAME IS * <set name="lastname"/><star/></template>
+</category>
+
+<category><pattern>WHAT IS MY LAST NAME</pattern>
+<template> Your last name is <get name="lastname"/></template>
+</category>
+
+<category><pattern>WHAT IS MY SURNAME</pattern>
+<template><srai> WHAT IS MY LAST NAME</srai><get name="lastname"/></template>
+</category>
+
+<category><pattern>MY BIRTHPLACE</pattern>
+<template><get name="birthplace"/></template>
+</category>
+
+<category><pattern>I WAS BORN IN *</pattern>
+<template> I will remeber that you were born in <set name="birthplace"/><star/></template>
+</category>
+
+<category><pattern>WHERE WAS I BORN</pattern>
+<template><srai> MY BIRTHPLACE </srai><get name="birthplace"/></template>
+</category>
+
+<category><pattern>MY BIRTHDAY</pattern>
+<template> <srai> WHEN IS MY BIRTHDAY </srai><get name="birthday"/></template>
+</category>
+
+<category><pattern>MY BIRTHDAY IS *</pattern>
+<template>I will remember your birthday is <set name="birthday"><star/></set></template>
+</category>
+
+<category><pattern>MY BIRTHDATE IS *</pattern>
+<template><srai> MY BIRTHDAY IS * <set name="birthdate"><star/></set></template>
+</category>
+
+<category><pattern>WHEN IS MY BIRTHDAY</pattern>
+<template>You said it was <get name="birthday"/></template>
+</category>
+
+<category><pattern>MY BIRTHDATE</pattern>
+<template><srai> WHEN IS MY BIRTHDAY </srai><get name="birthdate"/></template>
+</category>
+
+<category><pattern>I AM * YEARS OLD</pattern>
+<template> I will remember that you are <set name="age"><star/></set></template>
+</category>
+
+<category><pattern>HOW OLD AM I</pattern>
+<template>You said you were <get name="age"/></template>
+</category>
+
+<category><pattern>MY AGE</pattern>
+<template><srai>HOW OLD AM I</srai><get name="age"/></template>
+</category>
