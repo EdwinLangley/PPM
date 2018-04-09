@@ -1,13 +1,13 @@
 ﻿<Properties StartupConfiguration="{2EEC496F-C10D-47D4-9F2F-14B1E473D41E}|Default">
-  <MonoDevelop.Ide.ItemProperties.Riviera AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_Nougat" AndroidDesignerPreferredTheme="Theme.Material.Wallpaper.NoTitleBar" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Riviera/WrapperPacks.cs">
+  <MonoDevelop.Ide.ItemProperties.Riviera AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.ad02170215eb1cc36c" AndroidDesignerPreferredTheme="Theme.Material.Wallpaper.NoTitleBar" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Riviera/RJSInterface.cs">
     <Files>
-      <File FileName="Riviera/RWeb.cs" Line="45" Column="9" />
-      <File FileName="Riviera/RJSInterface.cs" Line="36" Column="9" />
-      <File FileName="Riviera/MainActivity.cs" Line="23" Column="13" />
-      <File FileName="Riviera/RTaskManager.cs" Line="26" Column="10" />
-      <File FileName="Riviera/WrapperTasks.cs" Line="44" Column="21" />
-      <File FileName="Riviera/WrapperPacks.cs" Line="1" Column="1" />
+      <File FileName="Riviera/RVoiceRecognition.cs" Line="86" Column="39" />
+      <File FileName="Riviera/MainActivity.cs" Line="24" Column="13" />
+      <File FileName="Riviera/RTaskManager.cs" Line="30" Column="10" />
+      <File FileName="Riviera/RComms.cs" Line="47" Column="25" />
+      <File FileName="Riviera/RWeb.cs" Line="52" Column="9" />
+      <File FileName="Riviera/RJSInterface.cs" Line="34" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

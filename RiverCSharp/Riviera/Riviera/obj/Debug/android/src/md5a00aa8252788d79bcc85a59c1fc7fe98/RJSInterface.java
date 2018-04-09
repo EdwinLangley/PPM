@@ -14,6 +14,10 @@ public class RJSInterface
 			"n_ShowAlert:(Ljava/lang/String;Ljava/lang/String;)V:__export__\n" +
 			"n_RegisterTask:(Ljava/lang/String;)Ljava/lang/String;:__export__\n" +
 			"n_SyncWithRemote:(Ljava/lang/String;)Ljava/lang/String;:__export__\n" +
+			"n_SpeakRequest:(Ljava/lang/String;)Ljava/lang/String;:__export__\n" +
+			"n_StopListening:()V:__export__\n" +
+			"n_IsListening:()Z:__export__\n" +
+			"n_GetApplicationName:()Ljava/lang/String;:__export__\n" +
 			"";
 		mono.android.Runtime.register ("RivieraInterfaces.RJSInterface, Riviera, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", RJSInterface.class, __md_methods);
 	}
@@ -68,6 +72,42 @@ public class RJSInterface
 	}
 
 	private native java.lang.String n_SyncWithRemote (java.lang.String p0);
+
+	@android.webkit.JavascriptInterface
+
+	public java.lang.String SpeakRequest (java.lang.String p0)
+	{
+		return n_SpeakRequest (p0);
+	}
+
+	private native java.lang.String n_SpeakRequest (java.lang.String p0);
+
+	@android.webkit.JavascriptInterface
+
+	public void StopListening ()
+	{
+		n_StopListening ();
+	}
+
+	private native void n_StopListening ();
+
+	@android.webkit.JavascriptInterface
+
+	public boolean IsListening ()
+	{
+		return n_IsListening ();
+	}
+
+	private native boolean n_IsListening ();
+
+	@android.webkit.JavascriptInterface
+
+	public java.lang.String GetApplicationName ()
+	{
+		return n_GetApplicationName ();
+	}
+
+	private native java.lang.String n_GetApplicationName ();
 
 	private java.util.ArrayList refList;
 	public void monodroidAddReference (java.lang.Object obj)

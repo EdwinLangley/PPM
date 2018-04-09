@@ -23,6 +23,10 @@ namespace RivieraManagers
                 RWebClient.TriggerCallback(identifier);
                 taskList.Remove(this);
             }
+
+            public static RTask getInstance(string identifier){
+                return taskList.Find((RTaskManager.RTask obj) => obj.identifier == identifier);
+            }
         }
 
         public static string GenID(int length = 8){

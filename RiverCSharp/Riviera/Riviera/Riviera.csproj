@@ -69,6 +69,8 @@
     <Compile Include="RWeb.cs" />
     <Compile Include="RGlobals.cs" />
     <Compile Include="RTaskManager.cs" />
+    <Compile Include="RComms.cs" />
+    <Compile Include="RVoiceRecognition.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

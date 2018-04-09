@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Android.Runtime;
 using Android.Webkit;
 using Java.Lang;
+using Riviera;
 
 namespace RivieraWeb
 {
@@ -27,7 +28,10 @@ namespace RivieraWeb
         public static RWebClient linkWebView(ref WebView webView){
             RWebClient rWebClientInstance = new RWebClient();
             RWebClient.linkedWebView = webView;
+            WebChromeClient webChromeClient = new WebChromeClient();
+            webView.SetWebChromeClient(webChromeClient);
             webView.SetWebViewClient(rWebClientInstance);
+            webView.ClearCache(true);
             return rWebClientInstance;
         }
 
@@ -40,6 +44,19 @@ namespace RivieraWeb
 
         public static void TriggerCallback(string identifier){
             ExecuteJS(" document.dispatchEvent(new CustomEvent('"+identifier+"', { bubbles : true })) ");
+        }
+
+        public static void RespondSaying(string message){
+            ExecuteJS("RiverRemote.response_speak(`"+message+"`)");
+        }
+
+        public static void UserSaid(string message){
+            ExecuteJS("RiverRemote.user_speak(`" + message + "`)");
+        }
+
+        public static void UpdateUI_StopListening(){
+            MainActivity.isListening = false;
+            ExecuteJS("RiverRemote.stop_listening()");
         }
 
         public void whenReady(Action doTask){

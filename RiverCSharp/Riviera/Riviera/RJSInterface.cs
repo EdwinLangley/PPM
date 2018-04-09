@@ -6,12 +6,14 @@ using Riviera;
 using Android.App;
 using RivieraManagers;
 using RivieraWeb;
+using System;
 
 namespace RivieraInterfaces
 {
     class RJSInterface : Java.Lang.Object
     {
         Context context;
+        RComms rCommunicator = null;
 
         public RJSInterface(Context context)
         {
@@ -36,9 +38,9 @@ namespace RivieraInterfaces
 
         [Export]
         [JavascriptInterface]
-        public string RegisterTask(string identifier=null){
+        public string RegisterTask(string identifier=""){
             RTaskManager.RTask task = new RTaskManager.RTask();
-            if (identifier == null) identifier = RTaskManager.GenID();
+            if (identifier.Length == 0) identifier = RTaskManager.GenID();
             task.identifier = identifier;
             RTaskManager.taskList.Add(task);
             return task.identifier;
@@ -50,6 +52,37 @@ namespace RivieraInterfaces
             RTaskManager.RTask task = RTaskManager.taskList.Find((RTaskManager.RTask obj) => obj.identifier == taskIdentifier);
             WrapperTasks.SyncContentWithRemote(task.Complete);
             return task.identifier;
+        }
+
+        [Export]
+        [JavascriptInterface]
+        public string SpeakRequest(string taskIdentifier){
+            RTaskManager.RTask task = RTaskManager.RTask.getInstance(taskIdentifier);
+            RComms rComms = new RComms((Activity)context);
+            rComms.Listen(task.Complete);
+            rCommunicator = rComms;
+            return task.identifier;
+        }
+
+        [Export]
+        [JavascriptInterface]
+        public void StopListening(){
+            if (rCommunicator != null){
+                MainActivity.isListening = false;
+                rCommunicator.StopListening();
+            }
+        }
+
+        [Export]
+        [JavascriptInterface]
+        public bool IsListening(){
+            return MainActivity.isListening;
+        }
+
+        [Export]
+        [JavascriptInterface]
+        public string GetApplicationName(){
+            return "River";
         }
 
     }
