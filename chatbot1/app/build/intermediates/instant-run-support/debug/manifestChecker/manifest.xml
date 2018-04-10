@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.edwin.chatbot1.CarerPanel" />
 
         <meta-data
             android:name="android.support.VERSION"

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/darylcecile/Desktop/PPM/chatbot1/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-port/values-port.xml",
+            "outputFile": "D:\\Users\\Edwin\\Documents\\chatbot1\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-port\\values-port.xml",
             "map": [
                 {
-                    "source": "/Users/darylcecile/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/0dc0c6f68d0c52f0a369650368851827/res/values-port/values-port.xml",
+                    "source": "C:\\Users\\Edwin\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\a87570d3e234bd4bcf9f43ee4165c0ee\\res\\values-port\\values-port.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
