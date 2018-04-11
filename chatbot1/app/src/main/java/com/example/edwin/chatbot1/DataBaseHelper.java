@@ -21,6 +21,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     private String CreateTableStatement =  "CREATE TABLE Carer(ID int, FirstName VARCHAR, LastName VARCHAR, PhoneNumber VARCHAR, EmailAddress VARCHAR, Address VARCHAR);";
+    private String CreateTableStatement2 =  "CREATE TABLE Contacts(ID INTEGER PRIMARY KEY   AUTOINCREMENT, FirstName VARCHAR, LastName VARCHAR, PhoneNumber VARCHAR, EmailAddress VARCHAR, Address VARCHAR);";
+    private String CreateTableStatement3 =  "CREATE TABLE Med(ID INTEGER PRIMARY KEY   AUTOINCREMENT, DrugType VARCHAR, ToBeTaken VARCHAR, PrescribedBy VARCHAR, SurgeryNumber VARCHAR);";
 
     public DataBaseHelper(Context context){
         super(context, database_name,null,database_version);
@@ -30,7 +32,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
     sqLiteDatabase.execSQL(CreateTableStatement);
-
+    sqLiteDatabase.execSQL(CreateTableStatement2);
+    sqLiteDatabase.execSQL(CreateTableStatement3);
     }
 
     @Override

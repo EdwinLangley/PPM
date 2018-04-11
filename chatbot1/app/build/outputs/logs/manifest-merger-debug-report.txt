@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\a87570d3e234bd4bcf9f43ee4165c0ee\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\8d8caecce09336db7e4b469939aa72c7\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\3c437aebbb2119459d2a4087c8966ebd\AndroidManifest.xml:17:1-28:12
@@ -16,25 +16,25 @@ MERGED from [com.android.support:support-media-compat:26.1.0] C:\Users\Edwin\.gr
 MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.1.0.aar\57ff87d1751a13423f1222413e920035\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-compat:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\0b6851c5c0a4e568c148cad1868e7932\AndroidManifest.xml:17:1-31:12
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\509054837980deb60a76c5e49e898500\AndroidManifest.xml:17:1-30:12
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
 	package
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:3:5-41
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:3:5-41
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:1-22:12
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:5:5-20:19
+ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:5:5-20:19
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\a87570d3e234bd4bcf9f43ee4165c0ee\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\a87570d3e234bd4bcf9f43ee4165c0ee\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\8d8caecce09336db7e4b469939aa72c7\AndroidManifest.xml:9:5-20
@@ -60,39 +60,39 @@ MERGED from [com.android.support:support-compat:26.1.0] C:\Users\Edwin\.gradle\c
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\509054837980deb60a76c5e49e898500\AndroidManifest.xml:24:5-28:19
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\509054837980deb60a76c5e49e898500\AndroidManifest.xml:24:5-28:19
 	android:supportsRtl
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:10:9-35
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:10:9-35
 	android:label
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:8:9-41
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:8:9-41
 	android:roundIcon
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:9:9-54
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:9:9-54
 	android:icon
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:7:9-43
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:7:9-43
 	android:allowBackup
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:6:9-35
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:6:9-35
 	android:theme
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:11:9-40
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:11:9-40
 activity#com.example.edwin.chatbot1.MainActivity
-ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:12:9-18:20
+ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:12:9-18:20
 	android:name
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:12:19-47
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:12:19-47
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:13:13-17:29
+ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:13:13-17:29
 action#android.intent.action.MAIN
-ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:14:17-69
+ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:14:17-69
 	android:name
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:14:25-66
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:14:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:16:17-77
+ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:16:17-77
 	android:name
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:16:27-74
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:16:27-74
 activity#com.example.edwin.chatbot1.CarerPanel
-ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:19:9-57
+ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:19:9-57
 	android:name
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml:19:19-45
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml:19:19-45
 uses-sdk
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\a87570d3e234bd4bcf9f43ee4165c0ee\AndroidManifest.xml:21:5-23:78
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\a87570d3e234bd4bcf9f43ee4165c0ee\AndroidManifest.xml:21:5-23:78
 MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\8d8caecce09336db7e4b469939aa72c7\AndroidManifest.xml:5:5-7:41
@@ -117,18 +117,18 @@ MERGED from [com.android.support:support-compat:26.1.0] C:\Users\Edwin\.gradle\c
 MERGED from [com.android.support:support-compat:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\0b6851c5c0a4e568c148cad1868e7932\AndroidManifest.xml:21:5-23:58
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\509054837980deb60a76c5e49e898500\AndroidManifest.xml:20:5-22:41
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\509054837980deb60a76c5e49e898500\AndroidManifest.xml:20:5-22:41
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
 	tools:overrideLibrary
 		ADDED from [com.android.support:appcompat-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\a87570d3e234bd4bcf9f43ee4165c0ee\AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-		ADDED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
-		INJECTED from D:\Users\Edwin\Documents\chatbot1\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+		ADDED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Users\Edwin\Documents\newPPM\PPM\chatbot1\app\src\main\AndroidManifest.xml
 meta-data#android.support.VERSION
 ADDED from [com.android.support:appcompat-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\a87570d3e234bd4bcf9f43ee4165c0ee\AndroidManifest.xml:26:9-28:38
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\Edwin\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\3c437aebbb2119459d2a4087c8966ebd\AndroidManifest.xml:23:9-25:38

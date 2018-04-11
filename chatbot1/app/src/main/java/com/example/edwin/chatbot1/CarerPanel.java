@@ -119,6 +119,5 @@ public class CarerPanel extends AppCompatActivity {
 
     public void updateCarerDetails(View view){
         UpdateCarer();
-
     }
 }

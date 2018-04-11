@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -36,6 +37,7 @@ import org.alicebot.ab.History;
 import org.alicebot.ab.MagicBooleans;
 import org.alicebot.ab.MagicStrings;
 import org.alicebot.ab.utils.IOUtils;
+import org.w3c.dom.Text;
 
 import android.view.Menu;
 
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         dataBaseHelper = new DataBaseHelper(getApplicationContext());
         database = dataBaseHelper.getReadableDatabase();
 
+        //insertData();
         getCarerInfo();
 
         runbot();
@@ -261,9 +264,17 @@ public class MainActivity extends AppCompatActivity {
                 carerDetailsResponse("EA");
             } else if (textLine.contains("carer") && textLine.contains("address")) {
                 carerDetailsResponse("A");
+            } else if (textLine.contains("add") && textLine.contains("contact")) {
+                addContactDialog();
+            } else if (textLine.contains("add") && textLine.contains("meds")) {
+                addPrescriptionDialog();
+            } else if (textLine.contains("calendar")) {
+                addCalendarDialog();
+            } else if (textLine.contains("delete contact")) {
+                deleteContact("Edwin","Langley");
+            } else if (textLine.contains("drugs")) {
+                addMedicineDialog("Calpol lol","Dr. Bob");
             }
-
-
 
             else {
                 AIMLFallBack();
@@ -333,11 +344,184 @@ public class MainActivity extends AppCompatActivity {
         } else if(flag.equals("A")) {
             messageStrings.add("Mavis: Your carers address is " + CarerProperties.get(4));
             setAdapt();
-
         }
 
     }
 
+    public void addContactDialog() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_addcontact, null);
+        mBuilder.setView(mView);
+
+        final EditText FirstNameField = (EditText) mView.findViewById(R.id.FirstNameEditText);
+        final EditText LastNameField = (EditText) mView.findViewById(R.id.LastNameEditText);
+        final EditText PhoneField = (EditText) mView.findViewById(R.id.PhoneEditText);
+        final EditText EmailField = (EditText) mView.findViewById(R.id.EmailEditText);
+        final EditText AddressField = (EditText) mView.findViewById(R.id.AddressEditText);
+        final Button AddButton = (Button) mView.findViewById(R.id.AddContactButton);
+
+        final AlertDialog dialog = mBuilder.create();
+
+        AddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
+                String FirstName = FirstNameField.getText().toString();
+                String LastName = LastNameField.getText().toString();
+                String Phone = PhoneField.getText().toString();
+                String Email = EmailField.getText().toString();
+                String Address = AddressField.getText().toString();
+
+
+                insertNewContact(FirstName,LastName,Phone,Email,Address);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void addPrescriptionDialog() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_addprescription, null);
+        mBuilder.setView(mView);
+
+        final EditText DrugTypeField = (EditText) mView.findViewById(R.id.DrugTypeEdit);
+        final EditText ToBeTakenField = (EditText) mView.findViewById(R.id.ToBeTakenEdit);
+        final EditText PrescribedByField = (EditText) mView.findViewById(R.id.PrescribedByEdit);
+        final EditText SurgeryNumberField = (EditText) mView.findViewById(R.id.SurgeryNumberEdit);
+        final Button AddButton = (Button) mView.findViewById(R.id.AddPrescriptionButton);
+
+        final AlertDialog dialog = mBuilder.create();
+
+        AddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
+                String DrugType = DrugTypeField.getText().toString();
+                String ToBeTaken = ToBeTakenField.getText().toString();
+                String PrescribedBy = PrescribedByField.getText().toString();
+                String SurgeryNumber = SurgeryNumberField.getText().toString();
+
+
+                insertNewPrescription(DrugType,ToBeTaken,PrescribedBy,SurgeryNumber);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    public void addCalendarDialog() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_calendar, null);
+        mBuilder.setView(mView);
+
+
+        final AlertDialog dialog = mBuilder.create();
+
+        dialog.show();
+
+    }
+
+    public void addMedicineDialog(String DrugName, String DrName) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_enquiredmedicine, null);
+        mBuilder.setView(mView);
+
+
+        final AlertDialog dialog = mBuilder.create();
+
+        dialog.show();
+        ArrayList<String> DrugProperties;
+
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Med WHERE PrescribedBy = ? ";
+
+
+        DrugProperties = new ArrayList<>();
+
+        TextView drugTextView = (TextView) mView.findViewById(R.id.DrugTypeTextView);
+        TextView freqTextView = (TextView) mView.findViewById(R.id.FreqTextView);
+        TextView DrTextView = (TextView) mView.findViewById(R.id.PrescribedByTextView);
+
+        cursor = database.rawQuery(Query, new String[]{DrName});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                drugTextView.setText("Drug Type: " + cursor.getString(cursor.getColumnIndex("DrugType")));
+                freqTextView.setText("You should take: " + cursor.getString(cursor.getColumnIndex("ToBeTaken")));
+                DrTextView.setText("Prescribed By: " + cursor.getString(cursor.getColumnIndex("PrescribedBy")));
+
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+    }
+
+    public void insertNewContact(String FirstName, String LastName, String Phone,String Email, String Address) {
+
+        ContentValues values = new ContentValues();
+
+        values.put("FirstName",FirstName);
+        values.put("LastName",LastName);
+        values.put("PhoneNumber",Phone);
+        values.put("EmailAddress",Email);
+        values.put("Address",Address);
+
+        long rowId = database.insert("Contacts",null,values);
+        if (rowId != -1){
+            Toast.makeText(MainActivity.this, "Success",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Error",Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    public void insertNewPrescription(String DrugType, String ToBeTaken, String PrescribedBy,String SurgeryNumber) {
+
+        ContentValues values = new ContentValues();
+
+        values.put("DrugType",DrugType);
+        values.put("ToBeTaken",ToBeTaken);
+        values.put("PrescribedBy",PrescribedBy);
+        values.put("SurgeryNumber",SurgeryNumber);
+
+        long rowId = database.insert("Med",null,values);
+        if (rowId != -1){
+            Toast.makeText(MainActivity.this, "Success",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Error",Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    public void deleteContact(String FirstName, String LastName) {
+
+        long rowId = database.delete("Contacts", "FirstName =" + FirstName + " AND LastName =" + LastName,null );
+        if (rowId != -1){
+            Toast.makeText(MainActivity.this, "Success",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Error",Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    public void deletePrescription(String DrugName, String DrName) {
+
+        long rowId = database.delete("Contacts", "DrugType=" + DrugName + " AND PrescribedBy=" + DrName,null );
+        if (rowId != -1){
+            Toast.makeText(MainActivity.this, "Success",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Error",Toast.LENGTH_LONG).show();
+        }
+
+
+    }
 
 
 }
