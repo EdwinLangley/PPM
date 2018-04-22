@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+  <category>
+	<pattern>MY FAVOURITE DESSERT IS *</pattern>
+	<template>Okay your favourite car is <set name = "fav-dessert"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY FAVOURITE DESSERT?</pattern>
+	<template>Your favorite car is <get name = "fav-dessert"/></template>
+  </category> 
+
+  <category>
+	<pattern>MY FAVOURITE PIZZA TOPPING IS *</pattern>
+	<template>Okay your favourite pizza topping is <set name = "fav-topping"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY FAVOURITE PIZZA TOPPING</pattern>
+	<template>Your favourite pizza topping is <get name = "fav-topping"/></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT WAS MY FAVOURITE PIZZA TOPPING</pattern>
+	<template>Your favourite pizza topping is <get name = "fav-topping"/></template>
+  </category> 
+
+  <category>
+	<pattern>FAVOURITE PIZZA TOPPING</pattern>
+	<template>Your favourite pizza topping is <get name = "fav-topping"/></template>
+  </category> 
+
+  <category>
+      <pattern>I LIKE TO GO EAT OUT AT *</pattern>
+	<template>Perfect! <set name = "fav-restaurant"></star></set> is where you like to go out and eat</template>
+  </category> 
+
+  <category>
+	<pattern>WHERE SHOULD I GO OUT TO EAT?</pattern>
+	<template>Well, your favourite place is <get name = "fav-restaurant"/> Is that a good idea?</template>
+  </category> 
+
+   <category>
+      <pattern>NO</pattern>
+      <that>>Well, your favourite place is <get name = "fav-restaurant"/> Is that a good idea?</that>
+      <template>Maybe next time</template>
+   </category>
+   
+   <category>
+      <pattern>YES</pattern>
+      <that>>Well, your favourite place is <get name = "fav-restaurant"/> Is that a good idea?</that>
+      <template>Sounds exciting</template>
+   </category>
+
+	
+</aiml>

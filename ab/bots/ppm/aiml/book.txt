@@ -1,0 +1,70 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+  <category>
+	<pattern>MY FAVOURITE BOOK IS *</pattern>
+	<template>Okay your favourite book is <set name = "fav-book"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY FAVOURITE BOOK?</pattern>
+	<template>Your favorite book is <get name = "fav-book"/></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT WAS MY FAVOURITE BOOK?</pattern>
+	<template>Your favorite book is <get name = "fav-book"/></template>
+  </category> 
+
+  <category>
+	<pattern>MY FAVOURITE BOOK</pattern>
+	<template>Your favorite book is <get name = "fav-book"/></template>
+  </category> 
+
+
+  <category>
+	<pattern>MY FAVOURITE AUTHOR IS *</pattern>
+	<template>Okay your favourite author is <set name = "fav-author"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY FAVOURITE AUTHOR?</pattern>
+	<template>Your favorite author is <get name = "fav-author"/></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT WAS MY FAVOURITE AUTHOR?</pattern>
+	<template>Your favorite author is <get name = "fav-author"/></template>
+  </category> 
+
+  <category>
+	<pattern>MY FAVOURITE AUTHOR</pattern>
+	<template>Your favorite author is <get name = "fav-author"/></template>
+  </category> 
+  
+   <category>
+      <pattern>BOOK GENRES</pattern>
+      <template>Do you like to read</template>  
+   </category>
+   
+   <category>
+      <pattern>YES</pattern>
+      <that>Do you like to read</that>
+      <template>Great! What's your favourite book genre to read</template>
+   </category>
+
+   <category>
+      <pattern>I LIKE * BOOKS</pattern>
+      <that>Great! What's your favourite book genre to read</that>
+      <template> I like <set name = "fav-genre"></star></set> books too</template>
+   </category>
+   
+   <category>
+      <pattern>NO</pattern>
+      <that>Do you like to read</that>
+      <template>That's ok</template>
+   </category> 
+
+ 
+	
+</aiml>

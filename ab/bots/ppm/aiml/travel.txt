@@ -1,0 +1,60 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+  <category>
+	<pattern>MY FAVOURITE CAR IS *</pattern>
+	<template>Okay your favourite car is <set name = "fav-car"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY FAVOURITE CAR?</pattern>
+	<template>Your favorite car is <get name = "fav-car"/></template>
+  </category> 
+
+  <category>
+      <pattern>MY CARER DRIVES A *</pattern>
+	<template>Okay your Carer, <get name = "carer-name"/>, drives a <set name = "carer-car"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT CAR DOES MY CARER DRIVE?</pattern>
+	<template>Your Carer <get name = "carer-name"/> drives a <get name = "carer-car"></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY CARER'S CAR</pattern>
+	<template>
+	<srai>WHAT CAR DOES MY CARER DRIVE?</srai>
+	</template>
+  </category> 
+  
+   <category>
+      <pattern>WHAT ABOUT TRAVEL</pattern>
+      <template>Do you like to travel</template>  
+   </category>
+   
+   <category>
+      <pattern>YES</pattern>
+      <that>Do you like to travel</that>
+      <template>Great! What's your dream travel destination</template>
+   </category>
+
+   <category>
+      <pattern>I WANT TO TRAVEL TO *</pattern>
+      <that>Great! What's your dream travel destination</that>
+      <template> <set name = "dream-destination"></star></set> sounds fantastic!</template>
+   </category>
+   
+   <category>
+      <pattern>NO</pattern>
+      <that>>Do you like to travel</that>
+      <template>That's ok!</template>
+   </category> 
+
+   <category>
+	<pattern>WHERE DID I WANT TO TRAVEL TO</pattern>
+	<template>Your dream holiday is to visit <get name = "dream-destination">!</template>
+   </category> 
+
+	
+</aiml>
