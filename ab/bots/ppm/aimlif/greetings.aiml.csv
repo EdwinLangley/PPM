@@ -8,3 +8,4 @@
 0,Good morning,*,*,<srai>HI</srai>,greetings.aiml
 0,Good afternoon,*,*,<srai>HI</srai>,greetings.aiml
 0,Good night,*,*,<random><li> Good night </li><li> Night night </li><li> Sleep well </li></random>,greetings.aiml
+0, DO YOU REMEMBER ME ,*,*, Of course I remember you, <get name="username"/>,greetings.aiml

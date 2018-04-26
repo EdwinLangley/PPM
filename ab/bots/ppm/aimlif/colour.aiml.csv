@@ -1,0 +1,5 @@
+0, MY FAVOURITE COLOUR IS *,*,*, Okay your favourite colour is <set name = "fav-colour"><star/></set>,colour.aiml
+0, WHAT IS MY FAVOURITE COLOUR ,*,*, Your favorite colour is <get name = "fav-colour"/>,colour.aiml
+0, FAVOURITE COLOUR ,*,*, <srai> WHAT IS MY FAVOURITE COLOUR </srai><get name = "fav-colour"/>,colour.aiml
+0, FAV COLOUR ,*,*, <srai>WHAT IS MY FAVOURITE COLOUR </srai><get name = "fav-colour"/>,colour.aiml
+0, I LIKE THE COLOUR *,*,*, <srai>MY FAVOURITE COLOUR IS *</srai><set name = "fav-colour"><star/></set>,colour.aiml

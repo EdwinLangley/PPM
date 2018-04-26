@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+  <category>
+	<pattern>MY FAVOURITE COLOUR IS *</pattern>
+	<template>Okay your favourite colour is <set name = "fav-colour"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY FAVOURITE COLOUR</pattern>
+	<template>Your favorite colour is <get name = "fav-colour"/></template>
+  </category> 
+
+  <category>
+	<pattern>FAVOURITE COLOUR</pattern>
+	<template><srai> WHAT IS MY FAVOURITE COLOUR </srai><get name = "fav-colour"/></template>
+  </category> 
+
+  <category>
+	<pattern>FAV COLOUR</pattern>
+	<template><srai>WHAT IS MY FAVOURITE COLOUR </srai><get name = "fav-colour"/></template>
+  </category> 
+  
+  <category>
+	<pattern>I LIKE THE COLOUR *</pattern>
+	<template><srai>MY FAVOURITE COLOUR IS *</srai><set name = "fav-colour"><star/></set></template>
+  </category> 
+
+
+	
+</aiml>

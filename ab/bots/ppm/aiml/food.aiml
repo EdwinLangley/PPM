@@ -1,0 +1,67 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "1.0.1" encoding ="UTF-8"?>
+
+
+
+  <category>
+	<pattern>MY FAVOURITE DESSERT IS *</pattern>
+	<template>Okay your favourite dessert is <set name = "fav-dessert"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY FAVOURITE DESSERT</pattern>
+	<template>Your favorite dessert is <get name = "fav-dessert"/></template>
+  </category> 
+  
+    <category>
+	<pattern>FAVOURITE DESSERT</pattern>
+	<template><srai> WHAT IS MY FAVOURITE DESSERT </srai><get name = "fav-dessert"/></template>
+  </category> 
+
+  <category>
+	<pattern>MY FAVOURITE PIZZA TOPPING IS *</pattern>
+	<template> Now I know that your favourite pizza topping is <set name = "fav-topping"><star/></set></template>
+  </category> 
+
+  <category>
+	<pattern>WHAT IS MY FAVOURITE PIZZA TOPPING</pattern>
+	<template>Your favourite pizza topping is <get name = "fav-topping"/></template>
+  </category> 
+
+  <category>
+	<pattern>FAVOURITE PIZZA TOPPING</pattern>
+	<template><srai> WHAT IS MY FAVOURITE PIZZA TOPPING</srai> <get name = "fav-topping"/></template>
+  </category> 
+
+    <category>
+	<pattern>I LIKE TO EAT AT *</pattern>
+	<template> I like that place too. Ill rememeber you like to eat at <set name = "fav-restaurant"><star/></set></template>
+  </category> 
+    
+    <category>
+	<pattern>MY FAVOURITE RESTAURANT IS *</pattern>
+	<template><srai> I LIKE TO EAT AT </srai><set name = "fav-restaurant"/><star/></set></template>
+  </category> 
+
+
+    <category>
+	<pattern>WHERE SHOULD I GO OUT TO EAT</pattern>
+	<template> Maybe you should go to your favourite place. Your favourite place is <get name = "fav-restaurant"/></template>
+  </category> 
+  
+      <category>
+	<pattern>WHERE DO I LIKE TO EAT</pattern>
+	<template> You like to eat at <get name = "fav-restaurant"/></template>
+  </category> 
+  
+    <category>
+	<pattern>MY FAVOURITE FOOD IS *</pattern>
+	<template> Now I know that your favourite food is <set name = "fav-food"><star/></set></template>
+  </category> 
+  
+    <category>
+	<pattern>WHAT IS MY FAVOURITE FOOD</pattern>
+	<template>Your favourite food is <get name = "fav-food"/></template>
+  </category> 
+	
+</aiml>

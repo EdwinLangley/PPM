@@ -1,0 +1,12 @@
+0, MY FAVOURITE DESSERT IS *,*,*, Okay your favourite dessert is <set name = "fav-dessert"><star/></set>,food.aiml
+0, WHAT IS MY FAVOURITE DESSERT ,*,*, Your favourite dessert is <get name = "fav-dessert"/>,food.aiml
+0, FAVOURITE DESSERT ,*,*, <srai> WHAT IS MY FAVOURITE DESSERT </srai><get name = "fav-dessert"/>,food.aiml
+0, MY FAVOURITE PIZZA TOPPING IS *,*,*, Now I know that your favourite pizza topping is <set name = "fav-topping"><star/></set>,food.aiml
+0, WHAT IS MY FAVOURITE PIZZA TOPPING ,*,*, Your favourite pizza topping is <get name = "fav-topping"/>,food.aiml
+0, FAVOURITE PIZZA TOPPING ,*,*, <srai> WHAT IS MY FAVOURITE PIZZA TOPPING</srai> <get name = "fav-topping"/>,food.aiml
+0, I LIKE TO EAT AT *,*,*, I like that place too. Ill rememeber you like to eat at <set name = "fav-restaurant"><star/></set>,food.aiml
+0, WHERE SHOULD I GO OUT TO EAT ,*,*, Maybe you should go to your favourite place. Your favourite place is <get name = "fav-restaurant"/>,food.aiml
+0, MY FAVOURITE RESTAURANT IS *,*,*,<srai> I LIKE TO EAT AT </srai><set name = "fav-restaurant"/><star/></set>,food.aiml
+0, WHERE DO I LIKE TO EAT ,*,*, You like to eat at <get name = "fav-restaurant"/>,food.aiml
+0, MY FAVOURITE FOOD IS *,*,*, Now I know that your favourite food is <set name = "fav-food"><star/></set>,food.aiml
+0, WHAT IS MY FAVOURITE FOOD ,*,*, Your favourite food is <get name = "fav-food"/>,food.aiml

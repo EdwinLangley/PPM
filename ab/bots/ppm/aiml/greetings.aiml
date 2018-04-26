@@ -88,5 +88,9 @@
          </random>
       </template>
     </category> 
+	
+	<category><pattern>DO YOU REMEMBER ME</pattern>
+<template>Of course I remember you, <get name="username"/></template>
+</category>
 
 </aiml>

@@ -1,0 +1,10 @@
+0, MY FAVOURITE BOOK IS *,*,*, Okay your favourite book is <set name = "fav-book"><star/></set>,book.aiml
+0, WHAT IS MY FAVOURITE BOOK ,*,*, Your favorite book is <get name = "fav-book"/>,book.aiml
+0, FAVOURITE BOOK ,*,*, <srai> WHAT IS MY FAVOURITE BOOK </srai><get name = "fav-book"/>,book.aiml
+0, MY FAVOURITE AUTHOR IS *,*,*, Okay your favourite author is <set name = "fav-author"><star/></set>,book.aiml
+0, WHO IS MY FAVOURITE AUTHOR ,*,*, Your favorite author is <get name = "fav-author"/>,book.aiml
+0, FAVOURITE AUTHOR ,*,*, <srai>WHO IS MY FAVOURITE AUTHOR</srai><get name = "fav-author"/>,book.aiml
+0, MY FAVOURITE BOOK GENRE IS *,*,*, Okay your favourite book genre is <set name = "fav-genre"><star/></set>,book.aiml
+0, WHAT IS MY FAVOURITE GENRE ,*,*, Your favorite genre book genre is <get name = "fav-genre"/>,book.aiml
+0, GENRE ,*,*, WHAT IS MY FAVOURITE GENRE <get name = "fav-genre"/>,book.aiml
+0, MY FAVOURITE GENRE IS *,*,*, <srai>MY FAVOURITE BOOK GENRE IS *</srai><set name = "fav-genre"><star/></set>,book.aiml

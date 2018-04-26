@@ -13,4 +13,4 @@
 0, MY BIRTHDATE ,*,*, <srai> WHEN IS MY BIRTHDAY </srai><get name="birthdate"/>, ClientInfo.aiml
 0, I AM * YEARS OLD ,*,*, I will remember that you are <set name="age"><star/></set>, ClientInfo.aiml
 0, HOW OLD AM I ,*,*, You said you were <get name="age"/>, ClientInfo.aiml
-0, MY AGE ,*,*, <srai>HOW OLD AM I</srai><get name="age"/>, ClientInfo.aiML
+0, MY AGE ,*,*, <srai>HOW OLD AM I</srai><get name="age"/>, ClientInfo.aiml
