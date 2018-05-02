@@ -1,33 +1,40 @@
 package com.example.edwin.chatbot1;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,13 +43,19 @@ import org.alicebot.ab.Chat;
 import org.alicebot.ab.History;
 import org.alicebot.ab.MagicBooleans;
 import org.alicebot.ab.MagicStrings;
-import org.alicebot.ab.utils.IOUtils;
-import org.w3c.dom.Text;
 
 import android.view.Menu;
 
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 
-public class MainActivity extends AppCompatActivity {
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+
+
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private static final boolean TRACE_MODE = false;
     static String botName = "super";
@@ -53,13 +66,33 @@ public class MainActivity extends AppCompatActivity {
     String textLine;
     EditText editContents;
     ListView messageList;
+    ImageView timeImage;
     List<String> messageStrings;
     ArrayAdapter<String> arrayAdapter;
     ArrayList<String> CarerProperties;
-
+    boolean isDangerDialogOpen = false;
+    boolean isFirstRun = false;
+    final String key = "MAVISKNOW";
+    final Security security = new Security();
     private DataBaseHelper dataBaseHelper;
 
     public SQLiteDatabase database;
+
+    private Sensor mySensor;
+    private SensorManager SM;
+    private float[] accelArray = new float[3];
+    float xDiff = 0, yDiff = 9.81f , zDiff = 0;
+    int accuracyCounter = 0;
+
+    MaxentTagger tagger;
+
+// =====================================================================
+// NAME: onCreate
+// PURPOSE: This function always runs when the app is started up.
+//          It is useful for setting views that will be used globally.
+//          Separate threads that are required to run throughout the application
+//          are also started here
+// =====================================================================
 
 
     @Override
@@ -67,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setCustomKeybaord();
+        //setCustomKeybaord();
         messageList= (ListView) findViewById(R.id.message_list);
+        timeImage= (ImageView) findViewById(R.id.timeImage);
 
 
         messageStrings = new ArrayList<String>();
@@ -78,11 +112,292 @@ public class MainActivity extends AppCompatActivity {
         dataBaseHelper = new DataBaseHelper(getApplicationContext());
         database = dataBaseHelper.getReadableDatabase();
 
+        SM = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        try {
+            TrainPos();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         //insertData();
+        checkTimeThread();
         getCarerInfo();
 
         runbot();
     }
+
+// =====================================================================
+// NAME: onAccuracyChanged
+// PURPOSE: Not used. However it is required to be included by android
+//          to use the sensors
+// =====================================================================
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Not in use
+    }
+
+// =====================================================================
+// NAME: onSensorChanged
+// PURPOSE: Time based trigger caused by the Sensor manager. A normal delay
+//          has been set. When this is triggered it compares the data from the
+//          sensors last run to gather acceleration in any direction.
+//          if this acceleration is greater than 3m/s^2 then this could likely relate
+//          to a fall so is noted by the application.
+// =====================================================================
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+        xDiff = accelArray[0] - event.values[0];
+        yDiff = accelArray[1] - event.values[1];
+        zDiff = accelArray[2] - event.values[2];
+
+        if ((Math.abs(xDiff) > 8.0) || (Math.abs(yDiff) > 8.0) || (Math.abs(zDiff) > 8.0)){
+            accuracyCounter++;
+            if (accuracyCounter > 1) {
+                addDangerDialog();
+            }
+        }
+
+        accelArray[0] = event.values[0];
+        accelArray[1] = event.values[1];
+        accelArray[2] = event.values[2];
+
+    }
+
+// =====================================================================
+// NAME: checkTimeThread
+// PURPOSE: Used to change the position of the clock at the top of the screen
+// =====================================================================
+
+    private void checkTimeThread(){
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Calendar rightNow;
+                    while(true) {
+
+                        rightNow = Calendar.getInstance();
+                        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY); // return the hour in 24 hrs format (ranging from 0-23)
+                        switch(currentHour){
+                            case 0:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.twelveam);
+                                    }
+                                });
+                                break;
+                            case 1:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.oneam);
+                                    }
+                                });
+                            break;
+                            case 2:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.twoam);
+                                    }
+                                });
+                            break;
+                            case 3:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.threeam);
+                                    }
+                                });
+                            break;
+                            case 4:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.fouram);
+                                    }
+                                });
+                            break;
+                            case 5:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.fiveam);
+                                    }
+                                });
+                            break;
+                            case 6:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.sixam);
+                                    }
+                                });
+                            break;
+                            case 7:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.sevenam);
+                                    }
+                                });
+                            break;
+                            case 8:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.eightam);
+                                    }
+                                });
+                            break;
+                            case 9:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.nineam);
+                                    }
+                                });
+                            break;
+                            case 10:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.tenam);
+                                    }
+                                });
+                            break;
+                            case 11:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.elevenam);
+                                    }
+                                });
+                            break;
+                            case 12:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.twelveam);
+                                    }
+                                });
+                            break;
+                            case 13:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.onepm);
+                                    }
+                                });
+                            break;
+                            case 14:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.twopm);
+                                    }
+                                });
+                            break;
+                            case 15:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.threepm);
+                                    }
+                                });
+                            break;
+                            case 16:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.fourpm);
+                                    }
+                                });
+                            break;
+                            case 17:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.fivepm);
+                                    }
+                                });
+                            break;
+                            case 18:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.sixpm);
+                                    }
+                                });
+                            break;
+                            case 19:
+                                runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    timeImage.setImageResource(R.drawable.sevenpm);
+                                }
+                            });
+                            case 20:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.eightpm);
+                                    }
+                                });
+                            break;
+                            case 21:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.ninepm);
+                                    }
+                                });
+                            break;
+                            case 22:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.tenpm);
+                                    }
+                                });
+                            break;
+                            case 23:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        timeImage.setImageResource(R.drawable.elevenpm);
+                                    }
+                                });
+                            break;
+
+                        }
+                        sleep(50000);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
+
+    }
+
+// =====================================================================
+// NAME: getCarerInfo
+// PURPOSE: queries the database for information about the carer
+// =====================================================================
 
     private void getCarerInfo(){
         Cursor cursor = null;
@@ -99,11 +414,23 @@ public class MainActivity extends AppCompatActivity {
                 CarerProperties.add(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
                 CarerProperties.add(cursor.getString(cursor.getColumnIndex("EmailAddress")));
                 CarerProperties.add(cursor.getString(cursor.getColumnIndex("Address")));
+                CarerProperties.add(cursor.getString(cursor.getColumnIndex("UserName")));
+                CarerProperties.add(cursor.getString(cursor.getColumnIndex("EncryptedPassword")));
+
 
             } while (cursor.moveToNext());
             cursor.close();
+        } else {
+            isFirstRun = true;
+            messageStrings.add("Mavis: As this is the first time running the application on this device you will need to setup a carer username and password. Try create carer");
+            setAdapt();
         }
     }
+
+// =====================================================================
+// NAME: insertData
+// PURPOSE: Used as a test function to add data to the database
+// =====================================================================
 
     private void insertData(){
         String name = "John";
@@ -116,6 +443,8 @@ public class MainActivity extends AppCompatActivity {
         values.put("PhoneNumber","77878787");
         values.put("EmailAddress","a@b.com");
         values.put("Address","1 NTU");
+        values.put("UserName","Jane");
+        values.put("EncryptedPassword","FHDAACFVK");
 
         long rowId = database.insert("Carer",null,values);
         if (rowId != -1){
@@ -125,40 +454,67 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+// =====================================================================
+// NAME: onCreateOptionsMenu
+// PURPOSE: Replaces the menu on the actionbar
+// =====================================================================
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return true;
     }
 
+// =====================================================================
+// NAME: onOptionsItemSelected
+// PURPOSE: Determines what to do when an option on the action bar has been clicked
+// =====================================================================
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.settings) {
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
             View mView = getLayoutInflater().inflate(R.layout.dialog_login, null);
-            EditText UserNameField = (EditText) mView.findViewById(R.id.UserNameEditText);
-            EditText UserPassword = (EditText) mView.findViewById(R.id.PasswordEditText);
+            final EditText UserNameField = (EditText) mView.findViewById(R.id.UserNameEditText);
+            final EditText UserPassword = (EditText) mView.findViewById(R.id.PasswordEditText);
+            final TextView warningTextView = (TextView) mView.findViewById(R.id.warningTextView);
             Button LoginButton = (Button) mView.findViewById(R.id.LoginButton);
 
             mBuilder.setView(mView);
             final AlertDialog dialog = mBuilder.create();
 
-            LoginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
-                    dialog.dismiss();
-                    Intent carerPanelIntent = new Intent(MainActivity.this, CarerPanel.class);
-                    carerPanelIntent.putExtra("sendFirstName",CarerProperties.get(0));
-                    carerPanelIntent.putExtra("sendLastName",CarerProperties.get(1));
-                    carerPanelIntent.putExtra("sendPhoneNumber",CarerProperties.get(2));
-                    carerPanelIntent.putExtra("sendEmail",CarerProperties.get(3));
-                    carerPanelIntent.putExtra("sendAddress",CarerProperties.get(4));
-                    startActivity(carerPanelIntent);
-                }
-            });
 
-            dialog.show();
+
+            if(isFirstRun == false) {
+
+                LoginButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        String encrypted = "";
+
+                        if (UserPassword.getText().toString().length() > 7) {
+                            encrypted = security.encrypt(UserPassword.getText().toString(), key);
+                        }
+
+                        if ((encrypted.equals(CarerProperties.get(6))) && (UserNameField.getText().toString().equals(CarerProperties.get(5)))) {
+                            dialog.dismiss();
+                            Intent carerPanelIntent = new Intent(MainActivity.this, CarerPanel.class);
+                            carerPanelIntent.putExtra("sendFirstName", CarerProperties.get(0));
+                            carerPanelIntent.putExtra("sendLastName", CarerProperties.get(1));
+                            carerPanelIntent.putExtra("sendPhoneNumber", CarerProperties.get(2));
+                            carerPanelIntent.putExtra("sendEmail", CarerProperties.get(3));
+                            carerPanelIntent.putExtra("sendAddress", CarerProperties.get(4));
+                            startActivity(carerPanelIntent);
+                        } else {
+                            warningTextView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                dialog.show();
+            } else {
+                Toast.makeText(MainActivity.this,"You need to make a carer account first", Toast.LENGTH_LONG).show();
+            }
 
         } else {
             return super.onOptionsItemSelected(item);
@@ -166,6 +522,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+// =====================================================================
+// NAME: runbot
+// PURPOSE: Looks for the AIML files and trains a AIML chatbot from this.
+//          Issues with the way android stores files caused us to store the
+//          set up files as .zip
+// =====================================================================
 
     public void runbot() {
         resourcesPath = getResourcesPath();
@@ -189,6 +551,37 @@ public class MainActivity extends AppCompatActivity {
         bot.brain.nodeStats();
         textLine = "";
     }
+
+// =====================================================================
+// NAME: TrainPos
+// PURPOSE: A similar training procedure to the AIML bot is seen here but
+//          with a part of speech tagger. We also had to store as a zip file here
+// =====================================================================
+
+    public void TrainPos() throws IOException, ClassNotFoundException {
+        resourcesPath = getResourcesPath();
+        System.out.println(resourcesPath);
+        File fileExt = new File(getExternalFilesDir(null).getAbsolutePath());
+
+
+            ZipFileExtraction extract = new ZipFileExtraction();
+
+            try
+            {
+                extract.unZipIt(getAssets().open("tag.zip"), getExternalFilesDir(null).getAbsolutePath() + "/");
+            } catch (Exception e) { e.printStackTrace(); }
+
+        String path = getExternalFilesDir(null).getAbsolutePath() + "/tag/left3words-wsj-0-18.tagger" ;
+        tagger = new MaxentTagger(path);
+    }
+
+
+// =====================================================================
+// NAME: setCustomKeybaord
+// PURPOSE: As most of the demo will be in a AVD we did not want to waste
+//          screen size with the virtual keyboard as we would have a physical
+//          one connected. This function turns it off.
+// =====================================================================
 
     public void setCustomKeybaord(){
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -217,6 +610,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+// =====================================================================
+// NAME: setAdapt
+// PURPOSE: Sets an array to update the listview
+// =====================================================================
+
+
     public void setAdapt() {
         arrayAdapter = new ArrayAdapter<String>(
                 this,
@@ -227,6 +626,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+// =====================================================================
+// NAME: getResourcesPath
+// PURPOSE: A file path helper for the AIML bot
+// =====================================================================
+
     private static String getResourcesPath() {
         File currDir = new File(".");
         String path = currDir.getAbsolutePath();
@@ -236,11 +640,114 @@ public class MainActivity extends AppCompatActivity {
         return resourcesPath;
     }
 
+
+// =====================================================================
+// NAME: addPhoto
+// PURPOSE:
+// =====================================================================
+
+    private void addPhoto() {
+        Intent pickPhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(pickPhoto , 0);
+    }
+
+// =====================================================================
+// NAME: onActivityResult
+// PURPOSE:
+//
+// =====================================================================
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data );
+        Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+
+        nameMemorydialog(bitmap);
+
+    }
+
+// =====================================================================
+// NAME: nameMemorydialog
+// PURPOSE:
+//
+// =====================================================================
+
+    private void nameMemorydialog(final Bitmap bitmap) {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_newmemoryphoto);
+
+        final ImageView fromCamera = (ImageView) dialog.findViewById(R.id.fromCameraview);
+        final EditText nameOfMemory = (EditText) dialog.findViewById(R.id.MemoryNameField);
+        Button button = (Button) dialog.findViewById(R.id.submitmemorybutton);
+
+        fromCamera.setImageBitmap(bitmap);
+
+        dialog.show();
+
+        button.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View view) {
+                if((bitmap != null) && (!nameOfMemory.getText().toString().isEmpty()) ) {
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    byte[] img = bos.toByteArray();
+
+                    addPhotoMemoryToDb(nameOfMemory.getText().toString() , img);
+                }
+            }
+        });
+
+
+    }
+
+// =====================================================================
+// NAME: addPhotoMemoryToDb
+// PURPOSE:
+//
+// =====================================================================
+
+
+    private void addPhotoMemoryToDb(String nameOfMemory, byte[] img) {
+        ContentValues values = new ContentValues();
+        values.put("Name", nameOfMemory);
+        values.put("Picture", img);
+
+        long rowId = database.insert("Memories",null,values);
+        if (rowId != -1){
+            Toast.makeText(MainActivity.this, "Success",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Error",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
+// =====================================================================
+// NAME: chatSend
+// PURPOSE: Probably the most important function of the application.
+//          Determines what functions are to be run dependant on content of
+//          the string entered into the message box. It will either do this
+//          by looking for words contained within the string or it will use
+//          a point of speech tagger to try and determine where the data lies
+//          within the sentence.
+// =====================================================================
+
     public void chatSend(View view) {
 
         try {
 
             setHumanResponse();
+
+            String tagged = tagger.tagString(textLine);
+
+            ArrayList<String> NLPWordArrayList = new ArrayList<String>();
+            for (String word : tagged.split(" ")) {
+                NLPWordArrayList.add(word);
+            }
 
             if ((textLine == null) || (textLine.length() < 1)) {
                 textLine = MagicStrings.null_input;
@@ -250,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (textLine.equals("wq")) {
                 bot.writeQuit();
                 System.exit(0);
-            }else if (textLine.contains("current time")) {
+            } else if (textLine.contains("current time")) {
                 timeResponse();
             } else if (textLine.contains("emergency") || textLine.contains("Emergency")) {
                 emergency();
@@ -265,18 +772,51 @@ public class MainActivity extends AppCompatActivity {
             } else if (textLine.contains("carer") && textLine.contains("address")) {
                 carerDetailsResponse("A");
             } else if (textLine.contains("add") && textLine.contains("contact")) {
-                addContactDialog();
-            } else if (textLine.contains("add") && textLine.contains("meds")) {
+                ArrayList<String> arguments = new ArrayList<>();
+
+                for (String word : NLPWordArrayList) {
+                    if (word.contains("/NNP")) {
+                        arguments.add(word.substring(0, word.length() - 4));
+                    }
+                }
+                if (arguments.size() == 0){
+                    addContactDialog();
+                } else if(arguments.size() == 1){
+                    addContactDialog(arguments.get(0));
+                } else if(arguments.size() == 2){
+                    addContactDialog(arguments.get(0),arguments.get(1));
+                }
+
+            } else if (textLine.contains("add") && textLine.contains("medication")) {
                 addPrescriptionDialog();
             } else if (textLine.contains("calendar")) {
                 addCalendarDialog();
             } else if (textLine.contains("delete contact")) {
-                deleteContact("Edwin","Langley");
-            } else if (textLine.contains("drugs")) {
-                addMedicineDialog("Calpol lol","Dr. Bob");
-            }
+                ArrayList<String> arguments = new ArrayList<>();
 
-            else {
+                for (String word : NLPWordArrayList) {
+                    if (word.contains("/NNP")) {
+                        arguments.add(word.substring(0, word.length() - 4));
+                    }
+                }
+                deleteContact(arguments.get(0), arguments.get(1));
+
+            } else if ((textLine.contains("medication")) && (textLine.contains("have"))) {
+                ArrayList<String> arguments = new ArrayList<>();
+
+                for (String word : NLPWordArrayList) {
+                    if ((word.contains("/NNP")) && (!word.contains("Dr"))) {
+                        arguments.add(word.substring(0, word.length() - 4));
+                    }
+                }
+                addMedicineDialog(arguments.get(0));
+            } else if (textLine.contains("create") && textLine.contains("carer")) {
+                addCarerLogin();
+            } else if (textLine.contains("add") && textLine.contains("photo")) {
+                addPhoto();
+            }else if (textLine.contains("view") && textLine.contains("memories")) {
+                showAllMemories();
+            }else {
                 AIMLFallBack();
             }
 
@@ -284,6 +824,111 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+// =====================================================================
+// NAME: showAllMemories
+// PURPOSE:
+//
+// =====================================================================
+
+    private void showAllMemories() {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_allmemories);
+
+        ListView listView = (ListView) dialog.findViewById(R.id.MemoriesList);
+
+        final ArrayList<String> MemoryNames = getAllMemoryNamesFromDb();
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                MemoryNames );
+
+        listView.setAdapter(arrayAdapter);
+
+        dialog.show();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                String selectedText = MemoryNames.get(position);
+                if(!selectedText.isEmpty()){
+                    byte[] image = getOneMemoryData(selectedText);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(image , 0, image .length);
+
+                    Dialog innerDialog = new Dialog(MainActivity.this);
+                    innerDialog.setContentView(R.layout.dialog_displaymemory);
+
+                    ImageView imageView = (ImageView) innerDialog.findViewById(R.id.MemImageView);
+
+                    imageView.setImageBitmap(bitmap);
+                    TextView singleMemory = (TextView) innerDialog.findViewById(R.id.singleMemoryTitle);
+                    singleMemory.setText("Your Memory: " + selectedText);
+                    innerDialog.show();
+
+                }
+            }
+        });
+    }
+
+// =====================================================================
+// NAME: getAllMemoryNamesFromDb
+// PURPOSE:
+//
+// =====================================================================
+
+    private ArrayList<String> getAllMemoryNamesFromDb() {
+        Cursor cursor = null;
+        String Query ="SELECT Name FROM Memories";
+
+        ArrayList<String> MemoryNames = new ArrayList<>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                MemoryNames.add(cursor.getString(cursor.getColumnIndex("Name")));
+            } while (cursor.moveToNext());
+            cursor.close();
+        } else {
+
+        }
+
+        return MemoryNames;
+
+    }
+
+// =====================================================================
+// NAME: getOneMemoryData
+// PURPOSE:
+//
+// =====================================================================
+
+    private byte[] getOneMemoryData(String Name) {
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Memories WHERE Name = '" + Name + "'";
+
+        byte [] image = null;
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                image = cursor.getBlob(cursor.getColumnIndex("Picture"));
+            } while (cursor.moveToNext());
+            cursor.close();
+        } else {
+
+        }
+
+        return image;
+
+    }
+
+// =====================================================================
+// NAME: AIMLFallBack
+// PURPOSE: None of the other responses were appropriate for this application
+//          the application will now rely on a AIML response
+// =====================================================================
 
     public void AIMLFallBack() {
 
@@ -299,14 +944,25 @@ public class MainActivity extends AppCompatActivity {
         setAdapt();
     }
 
+// =====================================================================
+// NAME: setHumanResponse
+// PURPOSE: Records what was said by the user so the listview looks like a conversation
+// =====================================================================
+
     public void setHumanResponse() {
 
         System.out.print("Human : ");
         editContents = (EditText) findViewById(R.id.edittext_chatbox);
         textLine = editContents.getText().toString();
         editContents.setText("");
-        messageStrings.add("Human: " + textLine);
+        messageStrings.add("Me: " + textLine);
+        setAdapt();
     }
+
+// =====================================================================
+// NAME: timeResponse
+// PURPOSE: Responds with the time if it is asked for.
+// =====================================================================
 
     public void timeResponse() {
 
@@ -319,6 +975,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+// =====================================================================
+// NAME: emergency
+// PURPOSE: Opens the dialer with the number of the carer
+// =====================================================================
+
     public void emergency() {
         getCarerInfo();
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -326,6 +987,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+// =====================================================================
+// NAME: carerDetailsResponse
+// PURPOSE: Replies with appropriate information about the carer
+// =====================================================================
 
     public void carerDetailsResponse(String flag) {
         getCarerInfo();
@@ -347,6 +1013,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+// =====================================================================
+// NAME: addContactDialog
+// PURPOSE: Will open a new dialog that allows the user to add information
+//          about a contact and save it to the database.
+// =====================================================================
 
     public void addContactDialog() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -381,6 +1053,146 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+// =====================================================================
+// NAME: addContactDialog
+// PURPOSE: Will open a new dialog that allows the user to add information
+//          about a contact and save it to the database. Gathers context
+//          surroudning the first name of the contact
+// =====================================================================
+
+    public void addContactDialog(String firstname) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_addcontact, null);
+        mBuilder.setView(mView);
+
+        final EditText FirstNameField = (EditText) mView.findViewById(R.id.FirstNameEditText);
+        final EditText LastNameField = (EditText) mView.findViewById(R.id.LastNameEditText);
+        final EditText PhoneField = (EditText) mView.findViewById(R.id.PhoneEditText);
+        final EditText EmailField = (EditText) mView.findViewById(R.id.EmailEditText);
+        final EditText AddressField = (EditText) mView.findViewById(R.id.AddressEditText);
+        final Button AddButton = (Button) mView.findViewById(R.id.AddContactButton);
+
+        FirstNameField.setText(firstname);
+
+        final AlertDialog dialog = mBuilder.create();
+
+        AddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
+                String FirstName = FirstNameField.getText().toString();
+                String LastName = LastNameField.getText().toString();
+                String Phone = PhoneField.getText().toString();
+                String Email = EmailField.getText().toString();
+                String Address = AddressField.getText().toString();
+
+
+                insertNewContact(FirstName,LastName,Phone,Email,Address);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+// =====================================================================
+// NAME: addCarerLogin
+// PURPOSE: used to make a Carer login on first run
+// =====================================================================
+
+    public void addCarerLogin() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_createcarer, null);
+        mBuilder.setView(mView);
+
+        final EditText UserNameField = (EditText) mView.findViewById(R.id.userNameField);
+        final EditText firstPassword = (EditText) mView.findViewById(R.id.passwordField);
+        final EditText confirmPassword = (EditText) mView.findViewById(R.id.confirmPasswordField);
+        final Button saveButton = (Button) mView.findViewById(R.id.saveButton);
+
+        final AlertDialog dialog = mBuilder.create();
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String userName = UserNameField.getText().toString();
+                String retrievedFirstPassword = firstPassword.getText().toString();
+                String retrievedSecondPassword = confirmPassword.getText().toString();
+
+
+
+                if (retrievedFirstPassword.equals(retrievedSecondPassword)){
+                    String encrypted = "";
+                    if (retrievedFirstPassword.length() > 8) {
+                        encrypted = security.encrypt(retrievedFirstPassword, key);
+                        insertNewCarer(userName,encrypted);
+                        isFirstRun = false;
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Please make your password over 7 characters long", Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+                    Toast.makeText(MainActivity.this, "Passwords do not match", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
+
+        dialog.show();
+    }
+
+// =====================================================================
+// NAME: addContactDialog
+// PURPOSE: Will open a new dialog that allows the user to add information
+//          about a contact and save it to the database. Gathers context
+//          surroudning the first and last name of the contact
+// =====================================================================
+
+    public void addContactDialog(String firstname, String lastname) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_addcontact, null);
+        mBuilder.setView(mView);
+
+        final EditText FirstNameField = (EditText) mView.findViewById(R.id.FirstNameEditText);
+        final EditText LastNameField = (EditText) mView.findViewById(R.id.LastNameEditText);
+        final EditText PhoneField = (EditText) mView.findViewById(R.id.PhoneEditText);
+        final EditText EmailField = (EditText) mView.findViewById(R.id.EmailEditText);
+        final EditText AddressField = (EditText) mView.findViewById(R.id.AddressEditText);
+        final Button AddButton = (Button) mView.findViewById(R.id.AddContactButton);
+
+        FirstNameField.setText(firstname);
+        LastNameField.setText(lastname);
+
+        final AlertDialog dialog = mBuilder.create();
+
+        AddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
+                String FirstName = FirstNameField.getText().toString();
+                String LastName = LastNameField.getText().toString();
+                String Phone = PhoneField.getText().toString();
+                String Email = EmailField.getText().toString();
+                String Address = AddressField.getText().toString();
+
+
+                insertNewContact(FirstName,LastName,Phone,Email,Address);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+// =====================================================================
+// NAME: addPrescriptionDialog
+// PURPOSE: Will open a new dialog that allows the user to add information
+//          about medication and save it to the database.
+// =====================================================================
+
     public void addPrescriptionDialog() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.dialog_addprescription, null);
@@ -413,6 +1225,61 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+// =====================================================================
+// NAME: addDangerDialog
+// PURPOSE: Will open a new dialog that allows the user to confirm if they are
+//          in danger
+// =====================================================================
+
+
+    public void addDangerDialog() {
+
+        if (isDangerDialogOpen == false) {
+
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+            View mView = getLayoutInflater().inflate(R.layout.dialog_emergency, null);
+            mBuilder.setView(mView);
+
+            final Button yesButton = (Button) mView.findViewById(R.id.yesButton);
+            final Button noButton = (Button) mView.findViewById(R.id.noButton);
+
+
+            final AlertDialog dialog = mBuilder.create();
+
+
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(final DialogInterface arg0) {
+                    isDangerDialogOpen = false;
+                }
+            });
+
+            yesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    emergency();
+                    dialog.dismiss();
+                }
+            });
+
+            noButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            isDangerDialogOpen = true;
+        }
+    }
+
+// =====================================================================
+// NAME:    addCalendarDialog
+// PURPOSE: Displays a Calendar
+// =====================================================================
+
     public void addCalendarDialog() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.dialog_calendar, null);
@@ -425,7 +1292,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void addMedicineDialog(String DrugName, String DrName) {
+// =====================================================================
+// NAME: addMedicineDialog
+// PURPOSE: Will open a new dialog that allows the user to add information
+//          about medication and save it to the database.
+// =====================================================================
+
+    public void addMedicineDialog(String DrName) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.dialog_enquiredmedicine, null);
         mBuilder.setView(mView);
@@ -433,7 +1306,7 @@ public class MainActivity extends AppCompatActivity {
 
         final AlertDialog dialog = mBuilder.create();
 
-        dialog.show();
+
         ArrayList<String> DrugProperties;
 
         Cursor cursor = null;
@@ -450,15 +1323,24 @@ public class MainActivity extends AppCompatActivity {
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
+                dialog.show();
                 drugTextView.setText("Drug Type: " + cursor.getString(cursor.getColumnIndex("DrugType")));
                 freqTextView.setText("You should take: " + cursor.getString(cursor.getColumnIndex("ToBeTaken")));
-                DrTextView.setText("Prescribed By: " + cursor.getString(cursor.getColumnIndex("PrescribedBy")));
+                DrTextView.setText("Prescribed By: " + DrName);//cursor.getString(cursor.getColumnIndex("PrescribedBy")));
 
             } while (cursor.moveToNext());
             cursor.close();
+        } else {
+            messageStrings.add("Mavis: Sorry, you didn't have anything from this doctor");
+            setAdapt();
         }
 
     }
+
+// =====================================================================
+// NAME: insertNewContact
+// PURPOSE: Database function for inserting contacts
+// =====================================================================
 
     public void insertNewContact(String FirstName, String LastName, String Phone,String Email, String Address) {
 
@@ -480,6 +1362,42 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+// =====================================================================
+// NAME: insertNewCarer
+// PURPOSE: Adds a new carer for start up
+// =====================================================================
+
+    public void insertNewCarer(String username, String password) {
+
+        if(isFirstRun == true) {
+
+            ContentValues values = new ContentValues();
+
+
+            values.put("UserName", username);
+            values.put("EncryptedPassword", password);
+            values.put("ID",1);
+
+            long rowId = database.insert("Carer", null, values);
+            if (rowId != -1) {
+                Toast.makeText(MainActivity.this, "Success, add info in carer panel", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
+            }
+        }  else {
+            Toast.makeText(MainActivity.this, "Account already exists", Toast.LENGTH_LONG).show();
+        }
+
+        getCarerInfo();
+
+
+    }
+
+// =====================================================================
+// NAME: insertNewPrescription
+// PURPOSE: Database function for inserting prescriptions
+// =====================================================================
+
     public void insertNewPrescription(String DrugType, String ToBeTaken, String PrescribedBy,String SurgeryNumber) {
 
         ContentValues values = new ContentValues();
@@ -499,6 +1417,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+// =====================================================================
+// NAME: deleteContact
+// PURPOSE: Database function for deleting contacts
+// =====================================================================
+
     public void deleteContact(String FirstName, String LastName) {
 
         long rowId = database.delete("Contacts", "FirstName =" + FirstName + " AND LastName =" + LastName,null );
@@ -510,6 +1433,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+// =====================================================================
+// NAME: deletePrescription
+// PURPOSE: Database function for deleting prescriptions
+// =====================================================================
 
     public void deletePrescription(String DrugName, String DrName) {
 

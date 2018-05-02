@@ -9,14 +9,15 @@
 
     <EditText
         android:id="@+id/edittext_chatbox"
-        android:layout_width="296dp"
+        android:layout_width="276dp"
         android:layout_height="58dp"
         android:layout_gravity="center"
+        android:layout_marginStart="8dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:hint="@string/enter_message"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <Button
@@ -24,6 +25,7 @@
         android:layout_width="83dp"
         android:layout_height="58dp"
         android:layout_gravity="bottom"
+        android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
@@ -31,28 +33,34 @@
         android:onClick="chatSend"
         android:text="SEND"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edittext_chatbox" />
 
     <ListView
         android:id="@+id/message_list"
         android:layout_width="368dp"
-        android:layout_height="379dp"
+        android:layout_height="363dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        app:layout_constraintBottom_toTopOf="@+id/edittext_chatbox"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeImage"
-        android:transcriptMode="alwaysScroll"
-        android:stackFromBottom="true"/>
+        app:layout_constraintTop_toBottomOf="@+id/timeImage" />
 
     <ImageView
         android:id="@+id/timeImage"
         android:layout_width="366dp"
         android:layout_height="63dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sun"
-        tools:layout_editor_absoluteX="9dp" />
+        app:srcCompat="@drawable/onepm" />
 
 
 </android.support.constraint.ConstraintLayout>
