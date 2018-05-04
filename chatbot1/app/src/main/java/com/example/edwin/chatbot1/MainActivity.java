@@ -3,6 +3,7 @@ package com.example.edwin.chatbot1;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,10 +12,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +33,10 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -742,6 +748,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             setHumanResponse();
 
+            addChatToDatabase(textLine);
+
             String tagged = tagger.tagString(textLine);
 
             ArrayList<String> NLPWordArrayList = new ArrayList<String>();
@@ -816,6 +824,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 addPhoto();
             }else if (textLine.contains("view") && textLine.contains("memories")) {
                 showAllMemories();
+            }else if (textLine.contains("export")) {
+                startExportDialog();
             }else {
                 AIMLFallBack();
             }
@@ -823,6 +833,92 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
+    private void startExportDialog() {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_exportchat);
+
+        final EditText fromDate = (EditText) dialog.findViewById(R.id.FromDate);
+        final EditText todate = (EditText) dialog.findViewById(R.id.ToDateField);
+        Button exportButton = (Button) dialog.findViewById(R.id.ExportButton);
+
+        exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String fromDateString = fromDate.getText().toString();
+                String toDateString = todate.getText().toString();
+
+
+                Cursor cursor = null;
+                String Query = "select * from AllChat where `atTime` >= '" + fromDateString + "' and `atTime` <= '" + toDateString + "'";
+
+                String sentences = "";
+
+                cursor = database.rawQuery(Query, null);
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        sentences+= " " + cursor.getString(cursor.getColumnIndex("Content"));
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                } else {
+                    Toast.makeText(MainActivity.this, "There were no entries found", Toast.LENGTH_LONG).show();
+                }
+                if (!sentences.isEmpty()){
+                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/appLogs";
+                    File file = new File(path+"/savedFile.txt");
+                    writeToFile(sentences,MainActivity.this );
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+
+        dialog.show();
+
+
+    }
+
+    private void writeToFile(String data,Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("ChatOutput.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+            Toast.makeText(MainActivity.this,"Save to file was successful",Toast.LENGTH_LONG).show();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
+    private void addChatToDatabase(String sentence) {
+
+
+        ContentValues values = new ContentValues();
+
+        values.put("Content",sentence);
+
+        long rowId = database.insert("AllChat",null,values);
+        if (rowId != -1){
+//            Toast.makeText(MainActivity.this, "Success",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Error",Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
 // =====================================================================
