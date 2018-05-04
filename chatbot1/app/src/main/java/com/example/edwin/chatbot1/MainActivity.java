@@ -955,10 +955,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     innerDialog.setContentView(R.layout.dialog_displaymemory);
 
                     ImageView imageView = (ImageView) innerDialog.findViewById(R.id.MemImageView);
+                    Button editButton = (Button) innerDialog.findViewById(R.id.editMemoryButton);
+                    Button deleteButton = (Button) innerDialog.findViewById(R.id.deleteMemory);
 
                     imageView.setImageBitmap(bitmap);
                     TextView singleMemory = (TextView) innerDialog.findViewById(R.id.singleMemoryTitle);
                     singleMemory.setText("Your Memory: " + selectedText);
+
+                    editButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final Dialog EditDialog = new Dialog(MainActivity.this);
+                            EditDialog.setContentView(R.layout.dialog_editname);
+
+                            EditDialog.show();
+                        }
+                    });
+
+                    deleteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final Dialog deleteDialog = new Dialog(MainActivity.this);
+                            deleteDialog.setContentView(R.layout.dialog_confirm);
+
+                            deleteDialog.show();
+                        }
+                    });
+
+
+
                     innerDialog.show();
 
                 }
