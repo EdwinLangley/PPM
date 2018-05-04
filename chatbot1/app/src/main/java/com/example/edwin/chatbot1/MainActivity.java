@@ -931,11 +931,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.dialog_allmemories);
 
-        ListView listView = (ListView) dialog.findViewById(R.id.MemoriesList);
+        final ListView listView = (ListView) dialog.findViewById(R.id.MemoriesList);
 
         final ArrayList<String> MemoryNames = getAllMemoryNamesFromDb();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 MemoryNames );
@@ -946,17 +946,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                String selectedText = MemoryNames.get(position);
+                final String selectedText = MemoryNames.get(position);
                 if(!selectedText.isEmpty()){
                     byte[] image = getOneMemoryData(selectedText);
                     Bitmap bitmap = BitmapFactory.decodeByteArray(image , 0, image .length);
 
-                    Dialog innerDialog = new Dialog(MainActivity.this);
+                    final Dialog innerDialog = new Dialog(MainActivity.this);
                     innerDialog.setContentView(R.layout.dialog_displaymemory);
 
                     ImageView imageView = (ImageView) innerDialog.findViewById(R.id.MemImageView);
                     Button editButton = (Button) innerDialog.findViewById(R.id.editMemoryButton);
-                    Button deleteButton = (Button) innerDialog.findViewById(R.id.deleteMemory);
+                    final Button deleteButton = (Button) innerDialog.findViewById(R.id.deleteMemory);
 
                     imageView.setImageBitmap(bitmap);
                     TextView singleMemory = (TextView) innerDialog.findViewById(R.id.singleMemoryTitle);
@@ -968,6 +968,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             final Dialog EditDialog = new Dialog(MainActivity.this);
                             EditDialog.setContentView(R.layout.dialog_editname);
 
+                            Button editNameButton = (Button) EditDialog.findViewById(R.id.saveNewNameButton);
+                            final EditText newNameField = (EditText) EditDialog.findViewById(R.id.newNameEditText);
+
+
+
+                            editNameButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    final String newMemoryName = newNameField.getText().toString();
+                                    if(!newMemoryName.isEmpty()) {
+                                        editAMemoryName(selectedText, newMemoryName);
+                                        EditDialog.dismiss();
+                                        innerDialog.dismiss();
+                                        dialog.dismiss();
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "There was nothing in the EditText", Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            });
+
                             EditDialog.show();
                         }
                     });
@@ -978,17 +999,77 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             final Dialog deleteDialog = new Dialog(MainActivity.this);
                             deleteDialog.setContentView(R.layout.dialog_confirm);
 
+                            Button yesConfirmButton = (Button) deleteDialog.findViewById(R.id.yesButton);
+                            Button noConfirmButton = (Button) deleteDialog.findViewById(R.id.noButton);
+
+                            yesConfirmButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    deleteAMemory(selectedText);
+                                    Toast.makeText(MainActivity.this, "The memory has been deleted from the database", Toast.LENGTH_LONG).show();
+                                    deleteDialog.dismiss();
+                                    innerDialog.dismiss();
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            noConfirmButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Toast.makeText(MainActivity.this,"Okay, no worries!", Toast.LENGTH_LONG).show();
+                                    deleteDialog.dismiss();
+                                }
+                            });
+
                             deleteDialog.show();
                         }
                     });
-
-
 
                     innerDialog.show();
 
                 }
             }
         });
+    }
+
+// =====================================================================
+// NAME: deleteAMemory
+// PURPOSE:
+//
+// =====================================================================
+
+    public void deleteAMemory(String memName) {
+
+        long rowId = database.delete("Memories", "Name =" + "'" + memName + "'",null );
+        if (rowId != -1){
+            Toast.makeText(MainActivity.this, "Entry Deleted",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Error Deleting",Toast.LENGTH_LONG).show();
+        }
+
+
+
+    }
+
+// =====================================================================
+// NAME: editAMemoryName
+// PURPOSE:
+// =====================================================================
+
+    public void editAMemoryName(String memName, String newMemName) {
+
+        ContentValues args = new ContentValues();
+        args.put("Name",newMemName);
+
+        long rowId = database.update("Memories", args, "Name =" + "'" + memName + "'",null);
+        if (rowId != -1){
+            Toast.makeText(MainActivity.this, "Entry Updated",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Error Updating",Toast.LENGTH_LONG).show();
+        }
+
+
+
     }
 
 // =====================================================================
