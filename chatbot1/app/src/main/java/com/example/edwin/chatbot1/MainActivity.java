@@ -839,23 +839,49 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     }
                 }
                 addMedicineDialog(arguments.get(0));
-            }
-//            else if ((textLine.contains("show")) && (textLine.contains("number"))) {
-//                ArrayList<String> arguments = new ArrayList<>();
-//
-//                for (String word : NLPWordArrayList) {
-//                    if ((word.contains("/NNP")) && (!word.contains("Dr"))) {
-//                        arguments.add(word.substring(0, word.length() - 4));
-//                    }
-//                }
-//                if(arguments.size() == 1){
-//
-//                } else if(arguments.size() == 2){
-//                    updateContactDialog(arguments.get(0),arguments.get(1));
-//                }
-//                showContactName(arguments.get(0));
-//            }
-            else if (textLine.contains("create") && textLine.contains("carer")) {
+            } else if ((textLine.contains("show")) && (textLine.contains("number"))) {
+                ArrayList<String> arguments = new ArrayList<>();
+
+                for (String word : NLPWordArrayList) {
+                    if ((word.contains("/NNP")) && (!word.contains("Dr"))) {
+                        arguments.add(word.substring(0, word.length() - 4));
+                    }
+                }
+                if(arguments.size() == 1){
+                    showContactNumber(arguments.get(0));
+                } else if(arguments.size() == 2){
+                    showContactNumber(arguments.get(0),arguments.get(1));
+                }
+
+            } else if ((textLine.contains("show")) && (textLine.contains("email"))) {
+                ArrayList<String> arguments = new ArrayList<>();
+
+                for (String word : NLPWordArrayList) {
+                    if ((word.contains("/NNP")) && (!word.contains("Dr"))) {
+                        arguments.add(word.substring(0, word.length() - 4));
+                    }
+                }
+                if(arguments.size() == 1){
+                    showContactEmail(arguments.get(0));
+                } else if(arguments.size() == 2){
+                    showContactEmail(arguments.get(0),arguments.get(1));
+                }
+
+            } else if ((textLine.contains("show")) && (textLine.contains("address"))) {
+                ArrayList<String> arguments = new ArrayList<>();
+
+                for (String word : NLPWordArrayList) {
+                    if ((word.contains("/NNP")) && (!word.contains("Dr"))) {
+                        arguments.add(word.substring(0, word.length() - 4));
+                    }
+                }
+                if(arguments.size() == 1){
+                    showContactAddress(arguments.get(0));
+                } else if(arguments.size() == 2){
+                    showContactAddress(arguments.get(0),arguments.get(1));
+                }
+
+            } else if (textLine.contains("create") && textLine.contains("carer")) {
                 addCarerLogin();
             } else if (textLine.contains("add") && textLine.contains("photo")) {
                 addPhoto();
@@ -871,6 +897,207 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             e.printStackTrace();
         }
     }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
+    private void showContactNumber(String first) {
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "'";
+
+        ArrayList<String> changeNameResults = new ArrayList<String>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
+            } while (cursor.moveToNext());
+            cursor.close();
+
+            if(changeNameResults.size() == 1){
+                messageStrings.add("Mavis: " + first + "s phone number is " + changeNameResults.get(0));
+            } else {
+                messageStrings.add("Mavis: There were too many people with this first name");
+            }
+
+        } else {
+            messageStrings.add("Mavis: I couldn't find this information");
+            setAdapt();
+        }
+
+
+    }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
+    private void showContactNumber(String first, String second) {
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "' AND LastName = '" + second  + "'";
+
+        ArrayList<String> changeNameResults = new ArrayList<String>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
+            } while (cursor.moveToNext());
+            cursor.close();
+
+            if(changeNameResults.size() == 1){
+                messageStrings.add("Mavis: " + first + " " + second+ "s phone number is " + changeNameResults.get(0));
+            }
+
+        } else {
+            messageStrings.add("Mavis: I couldn't find this information");
+            setAdapt();
+        }
+
+    }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
+    private void showContactEmail(String first) {
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "'";
+
+        ArrayList<String> changeNameResults = new ArrayList<String>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("EmailAddress")));
+            } while (cursor.moveToNext());
+            cursor.close();
+
+            if(changeNameResults.size() == 1){
+                messageStrings.add("Mavis: " + first + "s Email is " + changeNameResults.get(0));
+            } else {
+                messageStrings.add("Mavis: There were too many people with this first name");
+            }
+
+        } else {
+            messageStrings.add("Mavis: I couldn't find this information");
+            setAdapt();
+        }
+
+
+    }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
+    private void showContactEmail(String first, String second) {
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "' AND LastName = '" + second  + "'";
+
+        ArrayList<String> changeNameResults = new ArrayList<String>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("EmailAddress")));
+            } while (cursor.moveToNext());
+            cursor.close();
+
+            if(changeNameResults.size() == 1){
+                messageStrings.add("Mavis: " + first + " " + second+ "s Email is " + changeNameResults.get(0));
+            }
+
+        } else {
+            messageStrings.add("Mavis: I couldn't find this information");
+            setAdapt();
+        }
+
+    }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
+    private void showContactAddress(String first) {
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "'";
+
+        ArrayList<String> changeNameResults = new ArrayList<String>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("Address")));
+            } while (cursor.moveToNext());
+            cursor.close();
+
+            if(changeNameResults.size() == 1){
+                messageStrings.add("Mavis: " + first + "s address is " + changeNameResults.get(0));
+            } else {
+                messageStrings.add("Mavis: There were too many people with this first name");
+            }
+
+        } else {
+            messageStrings.add("Mavis: I couldn't find this information");
+            setAdapt();
+        }
+
+
+    }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
+    private void showContactAddress(String first, String second) {
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "' AND LastName = '" + second  + "'";
+
+        ArrayList<String> changeNameResults = new ArrayList<String>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("Address")));
+            } while (cursor.moveToNext());
+            cursor.close();
+
+            if(changeNameResults.size() == 1){
+                messageStrings.add("Mavis: " + first + " " + second+ "s address is " + changeNameResults.get(0));
+            }
+
+        } else {
+            messageStrings.add("Mavis: I couldn't find this information");
+            setAdapt();
+        }
+
+    }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
 
     private void updateContactDialog(final String first) {
 
@@ -951,6 +1178,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
     private void updateContactDialog(final String first, final String last) {
         Cursor cursor = null;
         String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "'" + " AND LastName = '" + last + "'";
@@ -1029,6 +1262,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
+
     private void updateContactDialogNoArgs() {
         final Dialog allContactsDialog = new Dialog(MainActivity.this);
         allContactsDialog.setContentView(R.layout.dialog_allmemories);
@@ -1069,6 +1308,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
 
     private ArrayList<String> getAllContactsFromDB() {
 
@@ -1142,6 +1387,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     }
+
+// =====================================================================
+// NAME: addChatToDatabase
+// PURPOSE:
+//
+// =====================================================================
 
     private void writeToFile(String data,Context context) {
         try {
