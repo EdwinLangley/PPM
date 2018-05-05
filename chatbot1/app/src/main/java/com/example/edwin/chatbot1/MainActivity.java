@@ -49,6 +49,7 @@ import org.alicebot.ab.Chat;
 import org.alicebot.ab.History;
 import org.alicebot.ab.MagicBooleans;
 import org.alicebot.ab.MagicStrings;
+import org.w3c.dom.Text;
 
 import android.view.Menu;
 
@@ -879,6 +880,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     showContactAddress(arguments.get(0));
                 } else if(arguments.size() == 2){
                     showContactAddress(arguments.get(0),arguments.get(1));
+                }
+
+            }else if ((textLine.contains("delete")) && (textLine.contains("prescription"))) {
+                ArrayList<String> arguments = new ArrayList<>();
+
+                for (String word : NLPWordArrayList) {
+                    if ((word.contains("/NNP")) && (!word.contains("Dr"))) {
+                        arguments.add(word.substring(0, word.length() - 4));
+                    }
+                }
+                if(arguments.size() == 1){
+                    deletePrescription(arguments.get(0));
                 }
 
             } else if (textLine.contains("create") && textLine.contains("carer")) {
@@ -2148,17 +2161,72 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 // PURPOSE: Database function for deleting prescriptions
 // =====================================================================
 
-    public void deletePrescription(String DrugName, String DrName) {
+    public void deletePrescription(final String DrugName) {
 
-        long rowId = database.delete("Contacts", "DrugType=" + DrugName + " AND PrescribedBy=" + DrName,null );
-        if (rowId != -1){
-            Toast.makeText(MainActivity.this, "Success",Toast.LENGTH_LONG).show();
+
+        Cursor cursor = null;
+        String Query = "SELECT * FROM Med WHERE DrugType = '" + DrugName + "'";
+
+        CarerProperties = new ArrayList<>();
+
+        cursor = database.rawQuery(Query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            getCarerInfo();
+
+            final Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.dialog_login);
+
+            TextView approval = (TextView) dialog.findViewById(R.id.CarerLoginTitle);
+            final TextView warningTextView = (TextView) dialog.findViewById(R.id.warningTextView);
+            final EditText UserNameField = (EditText) dialog.findViewById(R.id.UserNameEditText);
+            final EditText UserPassword = (EditText) dialog.findViewById(R.id.PasswordEditText);
+            Button loginButton = (Button) dialog.findViewById(R.id.LoginButton);
+
+
+            approval.setText("Approval Needed For This Action");
+
+
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String encrypted = "";
+
+                    if (UserPassword.getText().toString().length() > 7) {
+                        encrypted = security.encrypt(UserPassword.getText().toString(), key);
+                    }
+
+                    if ((encrypted.equals(CarerProperties.get(6))) && (UserNameField.getText().toString().equals(CarerProperties.get(5)))) {
+                        dialog.dismiss();
+
+                        long rowId = database.delete("Med", "DrugType= '" + DrugName + "'", null);
+                        if (rowId != -1) {
+                            Toast.makeText(MainActivity.this, "Deleted", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        }
+
+                    } else {
+                        warningTextView.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            });
+
+            dialog.show();
+
+
         } else {
-            Toast.makeText(MainActivity.this, "Error",Toast.LENGTH_LONG).show();
+            messageStrings.add("Mavis: Sorry, this didn't exist");
+            setAdapt();
         }
-
-
     }
+
+
+
+
 
 
 }
