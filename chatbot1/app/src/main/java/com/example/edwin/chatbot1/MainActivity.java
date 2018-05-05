@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //setCustomKeybaord();
+        setCustomKeybaord();
         messageList= (ListView) findViewById(R.id.message_list);
         timeImage= (ImageView) findViewById(R.id.timeImage);
 
@@ -680,7 +680,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 // =====================================================================
 
     private void nameMemorydialog(final Bitmap bitmap) {
-        Dialog dialog = new Dialog(MainActivity.this);
+        final Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.dialog_newmemoryphoto);
 
         final ImageView fromCamera = (ImageView) dialog.findViewById(R.id.fromCameraview);
@@ -702,7 +702,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                     byte[] img = bos.toByteArray();
 
-                    addPhotoMemoryToDb(nameOfMemory.getText().toString() , img);
+                    if(addPhotoMemoryToDb(nameOfMemory.getText().toString() , img)){
+                        dialog.dismiss();
+                    } else {
+                    }
                 }
             }
         });
@@ -717,7 +720,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 // =====================================================================
 
 
-    private void addPhotoMemoryToDb(String nameOfMemory, byte[] img) {
+    private boolean addPhotoMemoryToDb(String nameOfMemory, byte[] img) {
         ContentValues values = new ContentValues();
         values.put("Name", nameOfMemory);
         values.put("Picture", img);
@@ -725,8 +728,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         long rowId = database.insert("Memories",null,values);
         if (rowId != -1){
             Toast.makeText(MainActivity.this, "Success",Toast.LENGTH_LONG).show();
+            return true;
         } else {
             Toast.makeText(MainActivity.this, "Error",Toast.LENGTH_LONG).show();
+            return false;
         }
 
     }
@@ -795,6 +800,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     addContactDialog(arguments.get(0),arguments.get(1));
                 }
 
+            } else if (textLine.contains("update") && textLine.contains("contact")) {
+                ArrayList<String> arguments = new ArrayList<>();
+
+                for (String word : NLPWordArrayList) {
+                    if (word.contains("/NNP")) {
+                        arguments.add(word.substring(0, word.length() - 4));
+                    }
+                }
+                if (arguments.size() == 0){
+                    updateContactDialogNoArgs();
+                } else if(arguments.size() == 1){
+                    updateContactDialog(arguments.get(0));
+                } else if(arguments.size() == 2){
+                    updateContactDialog(arguments.get(0),arguments.get(1));
+                }
+
             } else if (textLine.contains("add") && textLine.contains("medication")) {
                 addPrescriptionDialog();
             } else if (textLine.contains("calendar")) {
@@ -818,7 +839,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     }
                 }
                 addMedicineDialog(arguments.get(0));
-            } else if (textLine.contains("create") && textLine.contains("carer")) {
+            }
+//            else if ((textLine.contains("show")) && (textLine.contains("number"))) {
+//                ArrayList<String> arguments = new ArrayList<>();
+//
+//                for (String word : NLPWordArrayList) {
+//                    if ((word.contains("/NNP")) && (!word.contains("Dr"))) {
+//                        arguments.add(word.substring(0, word.length() - 4));
+//                    }
+//                }
+//                if(arguments.size() == 1){
+//
+//                } else if(arguments.size() == 2){
+//                    updateContactDialog(arguments.get(0),arguments.get(1));
+//                }
+//                showContactName(arguments.get(0));
+//            }
+            else if (textLine.contains("create") && textLine.contains("carer")) {
                 addCarerLogin();
             } else if (textLine.contains("add") && textLine.contains("photo")) {
                 addPhoto();
@@ -833,6 +870,225 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateContactDialog(final String first) {
+
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "'";
+
+        ArrayList<String> changeNameResults = new ArrayList<String>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("FirstName")));
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("LastName")));
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("EmailAddress")));
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("Address")));
+            } while (cursor.moveToNext());
+            cursor.close();
+        } else {
+
+        }
+
+        if (changeNameResults.size() == 5) {
+
+            final Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.dialog_addcontact);
+
+            final EditText FirstNameField = (EditText) dialog.findViewById(R.id.FirstNameEditText);
+            final EditText LastNameField = (EditText) dialog.findViewById(R.id.LastNameEditText);
+            final EditText PhoneField = (EditText) dialog.findViewById(R.id.PhoneEditText);
+            final EditText EmailField = (EditText) dialog.findViewById(R.id.EmailEditText);
+            final EditText AddressField = (EditText) dialog.findViewById(R.id.AddressEditText);
+            final Button AddButton = (Button) dialog.findViewById(R.id.AddContactButton);
+            final TextView title = (TextView) dialog.findViewById(R.id.AddContactTitle);
+
+            title.setText("Edit Contact " + first);
+
+            FirstNameField.setText(changeNameResults.get(0));
+            LastNameField.setText(changeNameResults.get(1));
+            PhoneField.setText(changeNameResults.get(2));
+            EmailField.setText(changeNameResults.get(3));
+            AddressField.setText(changeNameResults.get(4));
+
+
+
+            FirstNameField.setFocusable(false);
+
+            AddButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ContentValues args = new ContentValues();
+                    args.put("LastName",LastNameField.getText().toString());
+                    args.put("PhoneNumber",PhoneField.getText().toString());
+                    args.put("EmailAddress",EmailField.getText().toString());
+                    args.put("Address",AddressField.getText().toString());
+
+                    long rowId = database.update("Contacts", args, "FirstName = '" + first + "'",null);
+                    if (rowId != -1){
+                        Toast.makeText(MainActivity.this, "Entry Updated",Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Error Updating",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            dialog.show();
+
+
+        } else if(changeNameResults.size() > 5){
+            messageStrings.add("Mavis: There was more than one person in your contacts with this first name");
+            setAdapt();
+        } else if(changeNameResults.size() < 5){
+            messageStrings.add("Mavis: There is nobody in your contacts with this first name");
+            setAdapt();
+        }
+
+    }
+
+    private void updateContactDialog(final String first, final String last) {
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts WHERE FirstName = '" + first + "'" + " AND LastName = '" + last + "'";
+
+        ArrayList<String> changeNameResults = new ArrayList<String>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("FirstName")));
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("LastName")));
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("EmailAddress")));
+                changeNameResults.add(cursor.getString(cursor.getColumnIndex("Address")));
+            } while (cursor.moveToNext());
+            cursor.close();
+        } else {
+
+        }
+
+        if (changeNameResults.size() == 5) {
+
+            final Dialog TwoVarDialog = new Dialog(MainActivity.this);
+            TwoVarDialog.setContentView(R.layout.dialog_addcontact);
+
+            final EditText FirstNameField = (EditText) TwoVarDialog.findViewById(R.id.FirstNameEditText);
+            final EditText LastNameField = (EditText) TwoVarDialog.findViewById(R.id.LastNameEditText);
+            final EditText PhoneField = (EditText) TwoVarDialog.findViewById(R.id.PhoneEditText);
+            final EditText EmailField = (EditText) TwoVarDialog.findViewById(R.id.EmailEditText);
+            final EditText AddressField = (EditText) TwoVarDialog.findViewById(R.id.AddressEditText);
+            final Button AddButton = (Button) TwoVarDialog.findViewById(R.id.AddContactButton);
+            final TextView title = (TextView) TwoVarDialog.findViewById(R.id.AddContactTitle);
+
+            title.setText("Edit Contact " + first);
+
+            FirstNameField.setText(changeNameResults.get(0));
+            LastNameField.setText(changeNameResults.get(1));
+            PhoneField.setText(changeNameResults.get(2));
+            EmailField.setText(changeNameResults.get(3));
+            AddressField.setText(changeNameResults.get(4));
+
+
+
+            FirstNameField.setFocusable(false);
+            LastNameField.setFocusable(false);
+
+            AddButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ContentValues args = new ContentValues();
+                    args.put("PhoneNumber",PhoneField.getText().toString());
+                    args.put("EmailAddress",EmailField.getText().toString());
+                    args.put("Address",AddressField.getText().toString());
+
+                    long rowId = database.update("Contacts", args, "FirstName = '" + first + "' AND LastName = '" + last + "'" ,null);
+                    if (rowId != -1){
+                        Toast.makeText(MainActivity.this, "Entry Updated",Toast.LENGTH_LONG).show();
+                        TwoVarDialog.dismiss();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Error Updating",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            TwoVarDialog.show();
+
+
+        } else if(changeNameResults.size() > 5){
+            messageStrings.add("Mavis: There was more than one person in your contacts with this first name");
+            setAdapt();
+        } else if(changeNameResults.size() < 5){
+            messageStrings.add("Mavis: There is nobody in your contacts with this first name");
+            setAdapt();
+        }
+
+    }
+
+    private void updateContactDialogNoArgs() {
+        final Dialog allContactsDialog = new Dialog(MainActivity.this);
+        allContactsDialog.setContentView(R.layout.dialog_allmemories);
+
+        TextView allContactsTitle = (TextView) allContactsDialog.findViewById(R.id.MemoriesTitle);
+
+        allContactsTitle.setText("All contacts");
+
+        final ListView listView = (ListView) allContactsDialog.findViewById(R.id.MemoriesList);
+
+        final ArrayList<String> MemoryNames = getAllContactsFromDB();
+
+        final ArrayList<String> firstNames = new ArrayList<String>();
+        final ArrayList<String> lastNames = new ArrayList<String>();
+        ArrayList<String> comboNames = new ArrayList<String>();
+
+        for (int i = 0; i < MemoryNames.size(); i = i+2){
+            firstNames.add(MemoryNames.get(i));
+            lastNames.add(MemoryNames.get(i+1));
+            comboNames.add(MemoryNames.get(i) + " " + MemoryNames.get(i+1));
+        }
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                comboNames );
+
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                updateContactDialog(firstNames.get(i),lastNames.get(i));
+            }
+        });
+
+        allContactsDialog.show();
+
+
+    }
+
+    private ArrayList<String> getAllContactsFromDB() {
+
+        Cursor cursor = null;
+        String Query ="SELECT * FROM Contacts";
+
+        ArrayList<String> ContactProps = new ArrayList<>();
+
+        cursor = database.rawQuery(Query,null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                ContactProps.add(cursor.getString(cursor.getColumnIndex("FirstName")));
+                ContactProps.add(cursor.getString(cursor.getColumnIndex("LastName")));
+            } while (cursor.moveToNext());
+            cursor.close();
+        } else {
+            Toast.makeText(MainActivity.this, "Try adding some contacts first", Toast.LENGTH_SHORT).show();
+        }
+        return ContactProps;
     }
 
 // =====================================================================
