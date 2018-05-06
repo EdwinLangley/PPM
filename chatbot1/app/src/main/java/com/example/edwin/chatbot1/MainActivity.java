@@ -65,7 +65,7 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private static final boolean TRACE_MODE = false;
-    static String botName = "super";
+    static String botName = "ppm";
 
     String resourcesPath;
     Bot bot;
@@ -595,7 +595,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         String path = getExternalFilesDir(null).getAbsolutePath();
-        bot = new Bot("super",path );//resourcesPath);
+        bot = new Bot("ppm",path );//resourcesPath);
         chatSession = new Chat(bot);
         bot.brain.nodeStats();
         textLine = "";
@@ -692,7 +692,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: addPhoto
-// PURPOSE:
+// PURPOSE: This function is responsible for starting the camera intent
 // =====================================================================
 
     private void addPhoto() {
@@ -702,7 +702,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: onActivityResult
-// PURPOSE:
+// PURPOSE: This function is triggered on closing the camera intent
 //
 // =====================================================================
 
@@ -718,8 +718,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: nameMemorydialog
-// PURPOSE:
-//
+// PURPOSE: This function is responsible for starting a dialog that allows the
+//          user to label the memorory.
 // =====================================================================
 
     private void nameMemorydialog(final Bitmap bitmap) {
@@ -758,8 +758,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: addPhotoMemoryToDb
-// PURPOSE:
-//
+// PURPOSE: Will proceed to add the memory from the name memory dialog to
+//          the database
 // =====================================================================
 
 
@@ -954,8 +954,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
+// NAME: showContactNumber
+// PURPOSE: Diaplays the relevant contact details
 //
 // =====================================================================
 
@@ -988,8 +988,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
+// NAME: showContactNumber
+// PURPOSE: Diaplays the relevant contact details
 //
 // =====================================================================
 
@@ -1019,8 +1019,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
+// NAME: showContactEmail
+// PURPOSE: Diaplays the relevant contact details
 //
 // =====================================================================
 
@@ -1053,8 +1053,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
+// NAME: showContactEmail
+// PURPOSE: Diaplays the relevant contact details
 //
 // =====================================================================
 
@@ -1084,8 +1084,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
+// NAME: showContactAddress
+// PURPOSE: Diaplays the relevant contact details
 //
 // =====================================================================
 
@@ -1118,8 +1118,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
+// NAME: showContactAddress
+// PURPOSE: Diaplays the relevant contact details
 //
 // =====================================================================
 
@@ -1149,9 +1149,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
-//
+// NAME: updateContactDialog
+// PURPOSE: Adds the current request from the user to the database
 // =====================================================================
 
     private void updateContactDialog(final String first) {
@@ -1234,9 +1233,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
-//
+// NAME: updateContactDialog
+// PURPOSE: Provides a dialog that allows the user to change the details
+//          of a contact when both tht first and last name are provided
 // =====================================================================
 
     private void updateContactDialog(final String first, final String last) {
@@ -1318,9 +1317,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
-//
+// NAME: updateContactDialogNoArgs
+// PURPOSE: Provides a list of all contacts when the user does not
+//          name one
 // =====================================================================
 
     private void updateContactDialogNoArgs() {
@@ -1365,8 +1364,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
+// NAME: getAllContactsFromDB
+// PURPOSE: Gets all of the users names from the database
 //
 // =====================================================================
 
@@ -1392,9 +1391,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
-//
+// NAME: startExportDialog
+// PURPOSE: Starts a dialog that allows the user to decide the timeframe they wish
+//          to export to file.
 // =====================================================================
 
     private void startExportDialog() {
@@ -1444,9 +1443,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 // =====================================================================
-// NAME: addChatToDatabase
-// PURPOSE:
-//
+// NAME: writeToFile
+// PURPOSE: When the user decides to export the chat to file this is
+//          started
 // =====================================================================
 
     private void writeToFile(String data,Context context) {
@@ -1462,8 +1461,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 // =====================================================================
 // NAME: addChatToDatabase
-// PURPOSE:
-//
+// PURPOSE: Adds the current request to the database for later sentiment
+//          analysis
 // =====================================================================
 
     private void addChatToDatabase(String sentence) {
@@ -1485,8 +1484,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: showAllMemories
-// PURPOSE:
-//
+// PURPOSE: Links to the later function "getAllMemoriesFromDB", provides
+//          a dialog to show all of the memories if the user doesn't say one
 // =====================================================================
 
     private void showAllMemories() {
@@ -1596,7 +1595,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: deleteAMemory
-// PURPOSE:
+// PURPOSE: allows the user to delete a memory from that database
 //
 // =====================================================================
 
@@ -1615,7 +1614,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: editAMemoryName
-// PURPOSE:
+// PURPOSE: Allows the user to change the name of a memory
 // =====================================================================
 
     public void editAMemoryName(String memName, String newMemName) {
@@ -1636,8 +1635,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: getAllMemoryNamesFromDb
-// PURPOSE:
-//
+// PURPOSE: takes all of the memory names from the database so they can
+//          be displayed in a listview
 // =====================================================================
 
     private ArrayList<String> getAllMemoryNamesFromDb() {
@@ -1663,7 +1662,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 // =====================================================================
 // NAME: getOneMemoryData
-// PURPOSE:
+// PURPOSE: gets the data associated with a memeory such as the photo
 //
 // =====================================================================
 

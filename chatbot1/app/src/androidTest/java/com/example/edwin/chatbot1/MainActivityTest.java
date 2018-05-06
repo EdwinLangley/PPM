@@ -1,5 +1,6 @@
 package com.example.edwin.chatbot1;
 
+import android.database.Cursor;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 
@@ -7,6 +8,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -20,41 +24,6 @@ public class MainActivityTest {
     public MainActivity mainActivity;
 
 
-    @Test
-    public void onAccuracyChanged() throws Exception {
-        assertTrue(true);
-    }
-
-    @Test
-    public void onSensorChanged() throws Exception {
-        assertTrue(true);
-    }
-
-    @Test
-    public void onCreateOptionsMenu() throws Exception {
-        assertTrue(true);
-    }
-
-    @Test
-    public void onOptionsItemSelected() throws Exception {
-        assertTrue(true);
-    }
-
-
-    @Test
-    public void AIMLFallBack() throws Exception {
-        assertTrue(true);
-    }
-
-    @Test
-    public void setHumanResponse() throws Exception {
-        assertTrue(true);
-    }
-
-    @Test
-    public void emergency() throws Exception {
-        assertTrue(true);
-    }
 
     @Before
     public void setUp() throws Exception {
