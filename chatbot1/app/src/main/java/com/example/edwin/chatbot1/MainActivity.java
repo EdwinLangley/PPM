@@ -389,6 +389,48 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             break;
 
                         }
+
+                        Cursor cursor = null;
+                        String Query = "SELECT * FROM Med WHERE  ToBeTaken between (SELECT datetime('now')) AND (SELECT datetime('now','+1 hours'));";
+
+                        final ArrayList<String> DrugWarningDetails = new ArrayList<>();
+
+                        cursor = database.rawQuery(Query, null);
+
+                        if (cursor != null && cursor.moveToFirst()) {
+                            do {
+                                DrugWarningDetails.add(cursor.getString(cursor.getColumnIndex("DrugType")));
+                                DrugWarningDetails.add(cursor.getString(cursor.getColumnIndex("ToBeTaken")));
+                                DrugWarningDetails.add(cursor.getString(cursor.getColumnIndex("PrescribedBy")));
+                                DrugWarningDetails.add(cursor.getString(cursor.getColumnIndex("SurgeryNumber")));
+
+                            } while (cursor.moveToNext());
+                            cursor.close();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    final Dialog dialog = new Dialog(MainActivity.this);
+                                    dialog.setContentView(R.layout.dialog_enquiredmedicine);
+
+                                    TextView drugTypeTextView = (TextView) dialog.findViewById(R.id.DrugTypeTextView);
+                                    TextView freqTextView = (TextView) dialog.findViewById(R.id.FreqTextView);
+                                    TextView prescribedByTextView = (TextView) dialog.findViewById(R.id.PrescribedByTextView);
+
+                                    drugTypeTextView.setText(DrugWarningDetails.get(0));
+                                    freqTextView.setText(DrugWarningDetails.get(1));
+                                    prescribedByTextView.setText(DrugWarningDetails.get(2));
+
+
+                                    dialog.show();
+
+                                }
+                            });
+
+                        }
+
+
                         sleep(50000);
                     }
                 } catch (InterruptedException e) {
